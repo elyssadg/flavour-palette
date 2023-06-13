@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .nav-menu {
+        @apply text-primary text-subheading font-medium border-b-2 border-transparent hover:text-secondary hover:border-secondary transition duration-500
+    }
+
+    .btn-primary {
+        @apply flex justify-center items-center px-5 py-1 text-white text-subheading font-medium rounded bg-primary border-2 border-primary hover:shadow-md hover:shadow-primary/50 transition duration-500
+    }
+
+    .btn-secondary {
+        @apply flex justify-center items-center px-5 py-1 text-primary text-subheading font-medium rounded bg-none border-2 border-primary hover:bg-primary hover:text-white hover:shadow-md hover:shadow-primary/50 transition duration-500
+    }
+
+    .form-label {
+        @apply text-primary text-name font-medium
+    }
+
+    .input-form {
+        @apply w-full mt-2 rounded border-0 outline-none px-3 py-2 text-secondary text-name font-medium ring-1 ring-inset ring-dgray placeholder:text-subname placeholder:text-dgray placeholder:font-normal focus:ring-2 focus:ring-inset focus:ring-orange focus:shadow-sm
+    }
+}
