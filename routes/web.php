@@ -18,6 +18,8 @@ Route::get('/', function () { return view('pages.home'); })->name('home');
 
 Route::group(['middleware' => 'guest'], function(){
     Route::get('/register', [UserController::class, 'registerUser'])->name("register.user");
+    Route::post('/register', [UserController::class, 'validateRegister']);
+    Route::post('/register/catering', [UserController::class, 'validateCatering'])->name("register.catering");
     Route::get('/login', [UserController::class, 'login'])->name("login");
     Route::post('/login', [UserController::class, 'validateLogin']);
     // Route::post('/login', [UserController::class, 'loginAuth']);

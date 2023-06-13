@@ -23,7 +23,7 @@
     </div>
     <script>
         var flag = 0;
-        function show_and_hide(){
+        function password(){
             if(flag == 1){
                 document.getElementById('password').type='password';
                 document.getElementById('eye-icon').classList.remove('fa-eye');

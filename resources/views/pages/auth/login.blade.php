@@ -5,13 +5,13 @@
 @endsection
 
 @section('content')
-    <form action="/login" method="POST" class="w-[60%] py-12 min-h-full flex flex-col justify-center rounded">
+    <form action="/login" method="POST" class="w-[60%] py-12 min-h-full flex flex-col justify-center">
         {{ csrf_field() }}
         <a href="{{ url('/') }}"><img src="{{ Storage::url("assets/general/logo.png") }}" class="mx-auto h-20 w-auto"></a>
         <h2 class="mt-5 text-center text-title text-secondary font-semibold">Welcome Back!</h2>
         <p class="mt-5 text-center text-name text-secondary font-normal">Sign in to continue</p>
 
-        <div class="mt-10 w-[full">
+        <div class="mt-10 w-full">
             <div>
                 <label for="email" class="form-label">Email or Username</label>
                 <input type="email" id="email" name="email" required class="input-form" placeholder="Email or Username" value="{{ Cookie::get('email_cookie') !== null ? Cookie::get('email_cookie') : '' }}">
