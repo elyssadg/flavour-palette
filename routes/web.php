@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SellerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +18,17 @@ use App\Http\Controllers\UserController;
 Route::get('/', function () { return view('pages.home'); })->name('home');
 
 Route::group(['middleware' => 'guest'], function(){
-    Route::get('/register', [UserController::class, 'registerUser'])->name("register.user");
+    Route::get('/register', [UserController::class, 'register'])->name("register");
     Route::post('/register', [UserController::class, 'validateRegister']);
-    Route::post('/register/catering', [UserController::class, 'validateCatering'])->name("register.catering");
     Route::get('/login', [UserController::class, 'login'])->name("login");
     Route::post('/login', [UserController::class, 'validateLogin']);
-    // Route::post('/login', [UserController::class, 'loginAuth']);
-    // Route::post('/register', [UserController::class, 'registerAuthCustomer'])->name("authCustomer");
-    // Route::post('/register/catering', [UserController::class, 'registerAuthCatering'])->name("authCatering");
+});
+
+Route::group(['middleware' => 'auth'], function(){
+    Route::get('/logout', [UserController::class, 'logout']);
+    Route::post('/profile/status', [UserController::class, 'updateStatus']);
+    Route::get('/profile/edit', [UserController::class, 'editProfile']);
+    Route::post('/profile/edit/account', [UserController::class, 'editAccount']);
+    Route::post('/profile/edit/password', [UserController::class, 'editPassword']);
+    Route::post('/profile/edit/catering', [SellerController::class, 'editCatering']);
 });

@@ -16,7 +16,7 @@
     }
 
     .form-label {
-        @apply text-primary text-name font-medium
+        @apply text-secondary text-name font-medium
     }
 
     .input-form {

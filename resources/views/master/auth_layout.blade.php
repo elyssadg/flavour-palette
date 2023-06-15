@@ -16,9 +16,9 @@
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body class="relative flex flex-col items-center justify-center w-screen h-screen">
-    <img class="absolute top-0 left-0 -z-10 w-full h-full object-cover" src="{{ Storage::url("assets/general/header-photo.png") }}" alt="">
-    <div class="flex flex-col bg-white bg-opacity-80 shadow z-10 items-center justify-center w-7/12 h-fit">
+<body class="relative flex flex-col items-center justify-center w-screen h-fit p-20">
+    <img class="fixed top-0 left-0 -z-10 w-full h-full object-cover" src="{{ Storage::url("assets/general/header-photo.png") }}" alt="">
+    <div class="flex flex-col bg-white bg-opacity-80 rounded shadow z-10 items-center justify-center w-7/12 h-fit">
         @yield('content')
     </div>
     <script>

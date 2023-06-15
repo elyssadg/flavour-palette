@@ -17,8 +17,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <nav class="w-screen">
-        <div class="w-[85%] flex items-center justify-between mx-auto py-5">
+    <nav class="fixed top-0 left-0 w-screen shadow-sm bg-white">
+        <div class="w-[85%] flex items-center justify-between mx-auto py-4">
             <div class="flex items-center gap-10">
                 <a href="{{ url('/') }}">
                     <img src="{{ Storage::url('assets/general/logo.png') }}" class="h-14" alt="flavour-palette logo" />
@@ -33,20 +33,152 @@
                     <a href="{{ url('/register') }}" class="btn-primary">Sign Up</a>
                 </div>
             @else
-                <div class="flex gap-10">
+                <div class="flex gap-10 items-center justify-center">
                     @if (Auth::user()->role == 'customer')
-                        <div class="flex gap-7 items-center">
-                            <a href="{{url('/cart')}}" ><i class="fa fa-bag-shopping fa-2x text-secondary"></i></a>
-                        </div>
+                        <a href="{{ url('/cart') }}" ><img src="{{ Storage::url('assets/nav-bar/cart.png') }}" alt="cart logo" class="h-7 w-auto"></a>
                     @endif
-                    <div class="w-10 h-10 mt-2 rounded-full overflow-hidden">
-                        <img id="profile-btn" src="{{ Storage::url("profile/user/".Auth::user()->profile_picture) }}" class="object-cover w-full h-full">
-                    </div>
+                    <img id="profile-btn" src="{{ Storage::url("profile/user/".Auth::user()->profile_picture) }}" class="cursor-pointer w-12 h-12 rounded-full border border-primary object-cover">
                 </div>
             @endif
         </div>
     </nav>
 
-    
+<div class="mt-[88px]">
+        @yield('content')
+    </div>
+
+    <!-- Profile Modal -->
+    @if (Auth::user())
+        <div id="layer" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+        <div id="profile-modal" class="hidden fixed w-5/12 z-50 p-10 bg-white shadow-md rounded" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+            <div class="flex items-center rounded justify-between p-3 border border-primary border-opacity-20 bg-white shadow-md">
+                <div class="flex items-center gap-5">
+                    <img id="profile-btn" src="{{ Storage::url("profile/user/".Auth::user()->profile_picture) }}" class="w-12 h-12 rounded-full border border-primary object-cover">
+                    <div>
+                        @if (Auth::user()->role == 'customer')
+                            <p class="font-semibold text-heading text-secondary">{{ Auth::user()->customer->username }}</p>
+                        @else
+                            <p class="font-semibold text-heading text-secondary">{{ Auth::user()->seller->name }}</p>
+                        @endif
+                        <p class="font-light text-name" style="color: rgba(52, 60, 45, 0.5);">{{ Auth::user()->email }}</p>
+                    </div>
+                </div>
+                <a href="/profile/edit"><i class="far fa-edit fa-lg text-secondary"></i></i></a>
+            </div>
+            <div class="mt-5 flex">
+                <div class="flex flex-col gap-3 flex-grow border-r border-r-primary">
+                    <div class="flex gap-2 items-center text-left">
+                        <i class="fa fa-phone text-secondary"></i>
+                        <p class="font-medium text-subheading text-secondary text-left">{{ Auth::user()->phone_number }}</p>
+                    </div>
+                    @if (Auth::user()->role == 'customer')
+                        <div class="flex gap-2 items-center text-left">
+                            <i class="fa fa-birthday-cake fa-lg text-secondary"></i>
+                            <p class="font-medium text-subheading text-secondary text-left">{{ \Carbon\Carbon::createFromFormat('Y-m-d', Auth::user()->customer->dob)->format('d F Y') }}</p>
+                        </div>
+                        <div class="flex gap-2 items-center text-left">
+                            <i class="fa fa-venus-mars text-secondary"></i>
+                            <p class="font-medium text-subheading text-secondary text-left">{{ ucfirst(Auth::user()->customer->gender) }}</p>
+                        </div>
+                    @else
+                        <div class="flex gap-2 items-center text-left">
+                            <i class="far fa-star text-secondary"></i>
+                            <p class="font-medium text-subheading text-secondary text-left">{{ Auth::user()->seller->store_rating }}</p>
+                        </div>
+                        <div class="flex gap-2 items-center text-left">
+                            <i class="far fa-hourglass text-secondary"></i>
+                            <p class="font-medium text-subheading text-secondary text-left">{{ Auth::user()->seller->opening_hour }} - {{ Auth::user()->seller->closing_hour }}</p>
+                        </div>
+                    @endif
+                    <div class="flex gap-2 items-center text-left">
+                        <i class="fa fa-spinner text-secondary"></i>
+                        <p class="font-medium text-subheading text-secondary text-left">{{ ucfirst(Auth::user()->status) }}</p>
+                    </div>
+                </div>
+                <div class="flex flex-col justify-between flex-grow ml-5 gap-16">
+                    <div class="flex flex-col gap-3">
+                        @if (Auth::user()->role == 'customer')
+                            <a class="text-primary text-subheading font-medium hover:text-secondary" href="{{url('/orderhistory')}}">Order History</a>
+                            <a class="text-primary text-subheading font-medium hover:text-secondary" href="{{url('/wishlist')}}">Wishlist</a>
+                        @else
+                            <a class="text-primary text-subheading font-medium hover:text-secondary" href="{{url('/manageorder')}}">Manage Order</a>
+                            <a class="text-primary text-subheading font-medium hover:text-secondary" href="{{url('/')}}">Withdraw Pocket</a>
+                        @endif
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        @if(Auth::user()->status == "active")
+                            <label id="inactivate-account" class="cursor-pointer text-primary text-lg font-medium hover:text-secondary">Inactivate Account</label>
+                        @else
+                            <label id="inactivate-account" class="cursor-pointer text-primary text-lg font-medium hover:text-secondary">Activate Account</label>
+                        @endif
+                        <a class="cursor-pointer text-primary text-subheading font-medium hover:text-secondary" href="{{ url('/logout') }}">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="inactivate-modal" class="hidden flex-col items-center fixed w-3/12 z-50 p-10 bg-white shadow-md rounded" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+            <form action="/profile/status" method="POST">
+                {{ @csrf_field() }}
+                @if(Auth::user()->status == "active")
+                    <div class="w-full text-center text-subheading text-primary font-medium">Are you sure you want to deactivate your account?</div>
+                    <button type="submit" id="deactivate" name="status" value="deactivate" class="mt-5 w-full btn-secondary">Yes</button>
+                @else
+                    <div class="w-full text-center text-subheading text-primary font-medium">Are you sure you want to activate your account?</div>
+                    <button type="submit" id="activate" name="status" value="activate" class="mt-5 w-full btn-secondary">Yes</button>
+                @endif
+            </form>
+            <div class="mt-2 flex justify-center w-full">
+                <button id="cancel-btn" class="w-full btn-primary">Cancel</button>
+            </div>
+            <div></div>
+        </div>
+    @endif
+
+    @if (Auth::user())
+        <script>
+            let profileBtn = document.getElementById('profile-btn');
+            let layer = document.getElementById('layer');
+            let profileModal = document.getElementById('profile-modal');
+            let inactivateLabel = document.getElementById('inactivate-account');
+            let inactivateAcc = document.getElementById('inactivate-modal');
+            let cancelBtn = document.getElementById('cancel-btn');
+
+            inactivateLabel.addEventListener('click', function(){
+                profileModal.style.display = 'none';
+                layer.style.display = 'block';
+                inactivateAcc.style.display = 'block';
+            });
+
+            profileBtn.addEventListener('click', function() {
+                layer.style.display = 'none';
+                profileModal.style.display = 'none';
+                inactivateAcc.style.display = 'none';
+
+                layer.style.display = 'block';
+                profileModal.style.display = 'block';
+            });
+
+            layer.addEventListener('click', function() {
+                layer.style.display = 'none';
+                profileModal.style.display = 'none';
+                inactivateAcc.style.display = 'none';
+            });
+
+            cancelBtn.addEventListener('click', function() {
+                profileModal.style.display = 'block';
+                inactivateAcc.style.display = 'none';
+            });
+        </script>
+    @endif
+
+    <script>
+        function scrollToAboutUs() {
+            var targetOffset = $('#about-us').offset().top - 150;
+            $('html, body').animate({
+                scrollTop: targetOffset
+            }, 1000); 
+        }
+    </script>
 </body>
 </html>
