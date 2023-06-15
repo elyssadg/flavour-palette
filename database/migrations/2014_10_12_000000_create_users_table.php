@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('status')->default('active');
             $table->string('role')->default('customer');
-            $table->string('profile_picture')->default('default.png');
+            $table->string('profile_picture')->default('default-user.png');
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
