@@ -12,11 +12,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $userSeeder = new UserSeeder();
+        $userId = $userSeeder->run();
+        $cateringSeeder = new SellerSeeder();
+        $cateringId = $cateringSeeder->run($userId);
+        $menuSeeder = new MenuSeeder();
+        $menuId = $menuSeeder->run($cateringId);
+        $reviewSeeder = new MenuReviewSeeder();
+        $reviewSeeder->run($menuId);
+        $categorySeeder = new CategorySeeder();
+        $categoryId = $categorySeeder->run();
+        $menuCategorySeeder = new MenuCategorySeeder();
+        $menuCategorySeeder->run($menuId, $categoryId);
     }
 }

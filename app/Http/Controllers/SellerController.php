@@ -73,4 +73,9 @@ class SellerController extends Controller
             'redirect' => '/profile/edit'
         ]);
     }
+
+    // Take 14 Seller
+    public function getTopSeller() {
+        return Seller::take(14)->get();
+    }
 }

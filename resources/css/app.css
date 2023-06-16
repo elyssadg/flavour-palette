@@ -22,4 +22,8 @@
     .input-form {
         @apply w-full mt-2 rounded border-0 outline-none px-3 py-2 text-secondary text-name font-medium ring-1 ring-inset ring-dgray placeholder:text-subname placeholder:text-dgray placeholder:font-normal focus:ring-2 focus:ring-inset focus:ring-orange focus:shadow-sm
     }
+
+    .footer-label {
+        @apply font-light text-name text-white
+    }
 }

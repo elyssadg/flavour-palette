@@ -15,6 +15,17 @@
     
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        .hide-scroll-bar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .hide-scroll-bar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <nav class="fixed top-0 left-0 w-screen shadow-sm bg-white">
@@ -25,7 +36,7 @@
                 </a>
                 <a href="{{ url('/') }}" class="nav-menu {{ request()->route()->getName() == 'home' ? 'text-secondary border-secondary' : 'text-primary' }}">Home</a>
                 <a href="{{ url('/catalog') }}" class="nav-menu {{ request()->route()->getName() == 'menu' ? 'text-secondary border-secondary' : 'text-primary' }}">Menu</a>
-                <a href="{{ url('/about') }}" class="nav-menu {{ request()->route()->getName() == 'about' ? 'text-secondary border-secondary' : 'text-primary' }}">About Us</a>
+                <a href="#about-us" class="nav-menu {{ request()->route()->getName() == 'about' ? 'text-secondary border-secondary' : 'text-primary' }}">About Us</a>
             </div>
             @if (!Auth::user())
                 <div class="flex gap-5">
@@ -43,9 +54,51 @@
         </div>
     </nav>
 
-<div class="mt-[88px]">
+    <div class="mt-[88px]">
         @yield('content')
     </div>
+
+    <footer>
+        <div class="px-[7.5%] py-20  bg-gradient-to-br from-[#FAD6A0] via-[#BAB183] to-[#818666] w-screen h-auto flex items-start justify-between">
+            <div class="w-[25%]">
+                <div><a href="{{ url('/') }}"><img src="{{Storage::url("assets/general/logo.png")}}" class="h-20"></a></div>
+                <div class="mt-5 font-semibold text-subheading text-primary">About Us</div>
+                <div class="mt-2 footer-label">We are Flavour Palette, an online catering service that allows you to enjoy quality meals every day.</div>
+            </div>
+
+            <div class="flex flex-col items-start gap-3 w-1/5">
+                <div class="font-semibold text-subheading text-primary">Fast Links</div>
+                <div class="footer-label"><a href="#">Our Menu</a></div>
+                <div class="footer-label"><a href="#">Promotions</a></div>
+                <div class="footer-label"><a href="#">Partners</a></div>
+                <div class="footer-label"><a href="#">Contact Us</a></div>
+            </div>
+
+            <div class="flex flex-col items-start gap-3 w-1/5">
+                <div class="font-semibold text-subheading text-primary">Contact Info</div>
+                <div class="footer-label"><a href="https://twitter.com/">Twitter</a></div>
+                <div class="footer-label"><a href="https://www.facebook.com/">Facebook</a></div>
+                <div class="footer-label"><a href="https://www.instagram.com/">Instagram</a></div>
+                <div class="footer-label"><a href="https://web.whatsapp.com/">Whatsapp</a></div>
+            </div>
+
+            <div class="flex flex-col items-baseline gap-1 w-[25%]">
+                <div class="font-semibold text-subheading text-primary">Newsletter</div>
+                <div class="my-2 footer-label">Stay up to date with us</div>
+                <div class="relative flex items-center w-full h-fit">
+                    <input type="email" id="email" name="email" required class="block w-full rounded border-0 py-1.5 px-3 text-primary placeholder:text-dgray sm:text-sm sm:leading-6" placeholder="Email" value="{{ Cookie::get('emailcookie') !== null ? Cookie::get('emailcookie') : '' }}">
+                    <div class="absolute" style="right: -2px; cursor: pointer;">
+                        <button class="py-1.5 px-3 bg-orange text-white rounded">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-4 w-full flex items-center justify-center">
+            <p style="color:rgb(172, 172, 172);">
+                &copy; 2023 Flavour Palette All Right Reserved
+            </p>
+        </div>
+    </footer>
 
     <!-- Profile Modal -->
     @if (Auth::user())

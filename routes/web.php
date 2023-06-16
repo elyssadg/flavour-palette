@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SellerController;
+use App\Http\Controllers\MenuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +16,8 @@ use App\Http\Controllers\SellerController;
 |
 */
 
-Route::get('/', function () { return view('pages.home'); })->name('home');
+Route::get('/', [MenuController::class, 'home'])->name('home');
+Route::get('/menu', [MenuController::class, 'menu'])->name("menu");
 
 Route::group(['middleware' => 'guest'], function(){
     Route::get('/register', [UserController::class, 'register'])->name("register");
