@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MenuReview extends Model
+class Cart extends Model
 {
     use HasFactory;
 
@@ -15,11 +15,11 @@ class MenuReview extends Model
         'id' => 'string'
     ];
 
-    public function menu(){
-        return $this->belongsTo(Menu::class);
+    public function customer() {
+        return $this->belongsTo(Customer::class);
     }
 
-    public function customer(){
-        return $this->belongsTo(Customer::class);
+    public function menu() {
+        return $this->belongsTo(Menu::class);
     }
 }

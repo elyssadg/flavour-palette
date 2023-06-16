@@ -31,119 +31,191 @@
                 </div>
                 <img class="w-[50%] h-auto" src="{{ Storage::url('assets/home/first-image.png') }}" alt="">
             </div>
+        @else
+            <div class="p-10 bg-lgray rounded border border-primary border-opacity-20 shadow-md">
+                <h1 class="text-secondary font-semibold text-title text-left">Order Activities</h1>
+                <p class="text-primary text-heading font-normal text-left">Activities that you need to monitor to maintain your order</p>
+                <div class="mt-5 flex justify-between items-center">
+                    <div class="flex gap-5">
+                        <div class="w-20 h-20 bg-primary rounded-full"></div>
+                        <div>
+                            <h2 class="text-orange font-semibold text-subheading text-left">New Order</h2>
+                            <h1 class="text-secondary font-semibold text-title text-left">{{ Auth::user()->seller->order_header->where('status', 'waiting')->count() }}</h1>
+                        </div>
+                    </div>
+                    <div class="flex gap-5">
+                        <div class="w-20 h-20 bg-primary rounded-full"></div>
+                        <div>
+                            <h2 class="text-orange font-semibold text-subheading text-left">In Progress</h2>
+                            <h1 class="text-secondary font-semibold text-title text-left">{{ Auth::user()->seller->order_header->where('status', 'in progress')->count() }}</h1>
+                        </div>
+                    </div>
+                    <div class="flex gap-5">
+                        <div class="w-20 h-20 bg-primary rounded-full"></div>
+                        <div>
+                            <h2 class="text-orange font-semibold text-subheading text-left">Done</h2>
+                            <h1 class="text-secondary font-semibold text-title text-left">{{ Auth::user()->seller->order_header->where('status', 'done')->count() }}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
         @endif
 
         <img class="w-full h-auto shadow-md" src="{{ Storage::url('assets/home/second-image.png') }}" alt="">
 
-        @if (!Auth::user() || Auth::user() && Auth::user()->role == 'customer')
-            <!-- Popular Menu -->
-            <div class="flex flex-col gap-5 w-full">
-                <div class="w-full flex flex-row justify-between items-baseline">
-                    <h1 class="text-title text-secondary font-semibold">Popular Menu for The Week</h1>
-                    <a href="{{ url('/menu') }}" class="mt-auto text-dgray font-light text-name hover:underline">See More</a>
-                </div>
-                <div class="flex h-max overflow-x-scroll hide-scroll-bar">
-                    <div class="flex gap-5 p-1">
-                        @foreach ($menus as $m)
-                            <div class="w-80 h-[580px] rounded bg-white shadow-md overflow-hidden">
-                                <div>
-                                    <a href="/menu/detail/{{ $m->id }}">
-                                        <img class="" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
-                                    </a>
-                                </div>
-                                <div class="flex flex-col gap-5 p-5">
-                                    <div class="flex justify-between h-auto">
-                                        <div class="max-w-[65%] text-secondary font-semibold text-heading">
-                                            {{ $m->name }}
-                                        </div>
-                                        <div>
-                                            <i class="fa fa-star" style="color: #E39D36"></i>
-                                            <?php
-                                                $total_rating = 0;
-                                                $total_review = 0;
-                                                foreach ($m->review as $rw) {
-                                                    $total_rating = $total_rating + $rw->rating;
-                                                    $total_review++;
-                                                }
-                                                if ($total_review < 1) {
-                                                    ?>
-                                                    <span class="text-secondary font-normal text-name">No Rating</span>
-                                                    <?php
-                                                } else {
-                                                    $total_rating = $total_rating / $total_review;
-                                                    ?>
-                                                    <span class="text-secondary font-semibold text-name">
-                                                        {{ number_format((float)$total_rating, 2, '.', '') }}
-                                                    </span>
-                                                    <sub>/5</sub>
-                                                    <?php
-                                                }
-                                            ?>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="">
-                                        <div id="" class="text-primary font-regular text-sm">
-                                            By {{ $m->seller->name }}
-                                        </div>
-
-                                        <div id=""  class="text-primary font-semibold text-base">
-                                            @foreach ($m->menu_category as $index => $mc)
-                                                {{$mc->category->name}}
-                                                @if (!$loop->last)
-                                                    |
-                                                @endif
-                                            @endforeach
-                                        </div>
-                                    </div>
-
-                                    <div class="flex justify-between items-center">
-                                        <div>
-                                            <div class="text-primary font-regular text-sm">Price</div>
-                                            <div id="" class="text-primary font-semibold text-base">
-                                                Rp{{ number_format($m->price/1000, 3, '.', ',') }},00
-                                            </div>
-                                        </div>
-                                        <div class="border-l-2 border-gray-400 pl-2">
-                                            <div class="text-primary font-regular text-sm">Ordered</div>
-                                            <div id="" class="text-primary font-semibold text-base">
-                                                {{$m->ordered}}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="ml-auto">
-                                        @if (!Auth::user())
-                                        <a href="/login" class="bg-secondary rounded-full h-12 w-12 flex items-center justify-center text-white font-medium text-4xl hover:shadow-secondary  hover:shadow-md">+</a>
-                                        @elseif (Auth::user()->role == 'customer')
-                                            @php $countWishlist = 0 @endphp
-                                            @if(Auth::check())
-                                                @php $countWishlist = App\Models\wishlist::countWishlist($m['id']) @endphp
-                                            @endif
-                                            <div class="flex gap-5 items-center ">
-                                                <a href="#" data-menuid="{{$m->id}}" class="update_wishlist">
-                                                    @if ($countWishlist > 0)
-                                                        <i class="fas fa-heart fa-2x"></i>
-                                                    @else
-                                                        <i class="far fa-heart fa-2x"></i>
-                                                    @endif
-                                                </a>
-
-                                                <button class="bg-secondary rounded-full h-10 w-10 flex items-center justify-center text-white font-medium text-4xl hover:shadow-secondary hover:shadow-md" type="submit" >+</button>
-                                            </div>
-                                        @else
-                                        <button class="flex w-full justify-center rounded bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:scale-105 hover:shadow-md transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary" type="submit" name="action" value="Edit">Edit</button>
-                                        <button class="font-medium text-secondary px-5" type="submit" name="action" value="Delete">Delete</button>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
+        <!-- Popular Menu -->
+        <div class="flex flex-col gap-5 w-full">
+            <div class="w-full flex flex-row justify-between items-baseline">
+                <h1 class="text-title text-secondary font-semibold">
+                    @if (!Auth::user() || Auth::user() && Auth::user()->role == 'customer')
+                        Popular Menu For The Week
+                    @else
+                        Top Menus For You
+                    @endif
+                </h1>
+                <a href="{{ url('/menu') }}" class="mt-auto text-dgray font-light text-name hover:underline">See More</a>
             </div>
 
+            <div class="flex h-max overflow-x-scroll hide-scroll-bar">
+                <div class="flex gap-5 p-1">
+                    @foreach ($menus as $index => $m)
+                        <div id="menu-{{ $index }}" class="relative w-80 h-fit rounded bg-white shadow-md overflow-hidden cursor-pointer">
+                            <div>
+                                <img class="" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
+                            </div>
+                            <div class="flex flex-col gap-5 p-5">
+                                <div class="flex justify-between h-auto">
+                                    <div class="max-w-[65%] h-20 text-secondary font-semibold text-heading">
+                                        {{ $m->name }}
+                                    </div>
+                                    <div>
+                                        <i class="fa fa-star" style="color: #E39D36"></i>
+                                        <?php
+                                            if ($m->average_rating < 1) {
+                                                ?>
+                                                <span class="text-secondary font-normal text-name">No Rating</span>
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <span class="text-secondary font-semibold text-name">
+                                                    {{ number_format($m->average_rating, 2, '.', '') }}
+                                                </span>
+                                                <sub>/5</sub>
+                                                <?php
+                                            }
+                                        ?>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col h-12">
+                                    <div id="" class="text-secondary text-opacity-50 text-subname font-normal">
+                                        By {{ $m->seller->name }}
+                                    </div>
+                                    <div class="text-secondary font-medium text-name">
+                                        @foreach ($m->menu_category as $index => $mc)
+                                            {{ $mc->category->name }}
+                                            @if (!$loop->last)
+                                                |
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <div class="text-secondary text-opacity-50 text-name font-normal">Price</div>
+                                        <div id="" class="text-secondary text-subheading font-semibold">
+                                            Rp{{ $m->price }},00
+                                        </div>
+                                    </div>
+                                    <div class="pl-2 border-l-2 border-secondary border-opacity-20">
+                                        <div class="text-secondary text-opacity-50 text-name font-normal">Ordered</div>
+                                        <div id="" class="text-secondary text-subheading font-semibold">
+                                            {{ $m->order_detail->count() }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @if (Auth::user() && Auth::user()->role == 'customer')
+                                    <div class="ml-auto">
+                                        <div class="flex gap-2 items-center justify-center">
+                                            @if (Auth::user()->customer->wishlist->where('menu_id', $m->id)->isNotEmpty())
+                                                <a href="/wishlist/remove/{{ $m->id }}" class="flex items-center justify-center w-12 h-12 rounded hover:bg-primary hover:bg-opacity-10">
+                                                    <i class="fas fa-heart fa-2x text-primary"></i>
+                                                </a>
+                                            @else
+                                                <a href="/wishlist/add/{{ $m->id }}" class="flex items-center justify-center w-12 h-12 rounded hover:bg-primary hover:bg-opacity-10">
+                                                    <i class="far fa-heart fa-2x text-primary"></i>
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="flex items-center justify-center">
+                                        <button id="edit-btn-{{ $m->id }}" class="w-3/4 btn-primary">Edit</button>
+                                        <a href="/menu/{{ $m->id }}/delete" class="ml-auto text-primary text-subheading font-medium">Delete</a>
+                                    </div>
+                                    <div id="layer-{{ $m->id }}" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+                                    <div id="edit-modal-{{ $m->id }}" class="hidden fixed w-5/12 z-50 p-10 bg-white shadow-md rounded" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                                        <form action="/menu/{{ $m->id }}/edit" id="menu-update-form" class="flex flex-col gap-5 w-full" method="POST" enctype="multipart/form-data">
+                                            {{ csrf_field() }}
+                                            <div class="font-semibold text-heading text-primary">Update Menu Detail</div>
+                                            <div>
+                                                <label for="menu_name" class="form-label">Name</label>
+                                                <input type="text" class="input-form" id="menu_name" name="menu_name" placeholder="Menu Name" value="{{ $m->name }}">
+                                            </div>
+
+                                            <div>
+                                                <label for="menu_price" class="form-label">Price</label>
+                                                <input type="number" class="input-form" id="menu_price" name="menu_price" placeholder="Menu Price" value="{{ $m->price }}">
+                                            </div>
+
+                                            <div>
+                                                <label for="menu_description" class="form-label">Description</label>
+                                                <textarea class="input-form" id="menu_description" name="menu_description" placeholder="Menu Price" value="{{ $m->description }}"></textarea>
+                                            </div>
+
+                                            <div>
+                                                <label for="menu_category" class="form-label">Category</label>
+                                                <div class="text-secondary font-semibold text-subheading">
+                                                    @foreach ($categories as $category)
+                                                        <option value="{{ $category->id }}" {{ $m->menu_category->where('category_id', $category->id)->isNotEmpty() ? 'selected' : '' }}>{{ $category->name }}</option>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+            
+                                            <div id="edit-menu-error" class="text-center text-red-500 text-name font-semibold mt-5"></div>
+            
+                                            <button type="submit" class="btn-primary">Save</button>
+                                        </form>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                        <script>
+                            document.getElementById('edit-btn-{{ $m->id }}').addEventListener('click', function(event){
+                                event.preventDefault();
+                                document.getElementById('edit-modal-{{ $m->id }}').classList.remove('hidden');
+                                document.getElementById('layer-{{ $m->id }}').classList.remove('hidden');
+                            });
+
+                            document.getElementById('layer-{{ $m->id }}').addEventListener('click', function() {
+                                document.getElementById('edit-modal-{{ $m->id }}').classList.add('hidden');
+                                document.getElementById('layer-{{ $m->id }}').classList.add('hidden');
+                            });
+
+                            document.getElementById('menu-{{ $m->id }}').addEventListener('click', function(){
+                                if (!event.target.classList.contains('btn-primary')) {
+                                    window.location.href = 'menu/{{ $m->id }}';
+                                }
+                            });
+                        </script>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        
+        @if (!Auth::user() || Auth::user() && Auth::user()->role == 'customer')
             <!-- About Us -->
             <div class="w-full flex justify-between">
                 <img src="{{ Storage::url('assets/home/food-photo.png') }}" alt="food image" class="mb-auto w-[35%]">

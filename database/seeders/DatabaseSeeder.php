@@ -16,13 +16,17 @@ class DatabaseSeeder extends Seeder
         $userId = $userSeeder->run();
         $cateringSeeder = new SellerSeeder();
         $cateringId = $cateringSeeder->run($userId);
+        $customerSeeder = new CustomerSeeder();
+        $customerId = $customerSeeder->run($userId);
         $menuSeeder = new MenuSeeder();
         $menuId = $menuSeeder->run($cateringId);
         $reviewSeeder = new MenuReviewSeeder();
-        $reviewSeeder->run($menuId);
+        $reviewSeeder->run($menuId, $customerId);
         $categorySeeder = new CategorySeeder();
         $categoryId = $categorySeeder->run();
         $menuCategorySeeder = new MenuCategorySeeder();
         $menuCategorySeeder->run($menuId, $categoryId);
+        $orderHeaderSeeder = new OrderHeaderSeeder();
+        $orderHeaderSeeder->run($customerId, $cateringId);
     }
 }

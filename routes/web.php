@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +20,7 @@ use App\Http\Controllers\MenuController;
 
 Route::get('/', [MenuController::class, 'home'])->name('home');
 Route::get('/menu', [MenuController::class, 'menu'])->name("menu");
+Route::get('/menu/{id}', [MenuController::class, 'menuDetail']);
 
 Route::group(['middleware' => 'guest'], function(){
     Route::get('/register', [UserController::class, 'register'])->name("register");
@@ -32,5 +35,14 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/profile/edit', [UserController::class, 'editProfile']);
     Route::post('/profile/edit/account', [UserController::class, 'editAccount']);
     Route::post('/profile/edit/password', [UserController::class, 'editPassword']);
-    Route::post('/profile/edit/catering', [SellerController::class, 'editCatering']);
+
+    Route::group(['middleware' => 'seller'], function(){
+        Route::post('/profile/edit/catering', [SellerController::class, 'editCatering']);
+        Route::get('/menu/{id}/delete', [MenuController::class, 'deleteMenu']);
+    });
+
+    Route::group(['middleware' => 'customer'], function(){
+        Route::get('/wishlist/add/{id}', [WishlistController::class, 'addWishlist']);
+        Route::get('/wishlist/remove/{id}', [WishlistController::class, 'removeWishlist']);
+    });
 });

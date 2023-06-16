@@ -26,4 +26,8 @@
     .footer-label {
         @apply font-light text-name text-white
     }
+
+    .category {
+        @apply p-1 text-secondary border
+    }
 }

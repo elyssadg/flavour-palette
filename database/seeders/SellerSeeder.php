@@ -17,7 +17,7 @@ class SellerSeeder extends Seeder
         $sellerId = Str::uuid()->toString();
         Seller::create([
             'id' => $sellerId,
-            'user_id' => $userId[2],
+            'user_id' => $userId[1],
             'name' => 'Vije Catering',
             'description' => 'Catering yummy top 1 Indonesia',
             'store_rating' => 5,

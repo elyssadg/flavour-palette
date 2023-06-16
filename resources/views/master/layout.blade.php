@@ -21,14 +21,14 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-        
+
         .hide-scroll-bar::-webkit-scrollbar {
             display: none;
         }
     </style>
 </head>
 <body>
-    <nav class="fixed top-0 left-0 w-screen shadow-sm bg-white">
+    <nav class="fixed top-0 left-0 w-screen shadow-sm bg-white z-50">
         <div class="w-[85%] flex items-center justify-between mx-auto py-4">
             <div class="flex items-center gap-10">
                 <a href="{{ url('/') }}">

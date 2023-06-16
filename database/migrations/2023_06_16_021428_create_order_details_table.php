@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('menu_reviews', function (Blueprint $table) {
-            $table->string('id')->primary();
+        Schema::create('order_details', function (Blueprint $table) {
+            $table->string('order_id');
+            $table->foreign('order_id')->references('id')->on('order_headers')->onDelete('cascade')->onUpdate('cascade');
             $table->string('menu_id');
             $table->foreign('menu_id')->references('id')->on('menus')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('customer_id');
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade')->onUpdate('cascade');
-            $table->double('rating');
-            $table->string('review_message');
-            $table->string('review_image')->nullable();
+            $table->date('arrival_date');
+            $table->integer('quantity');
+            $table->string('status');
+            $table->primary(['order_id', 'menu_id', 'arrival_date']);
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('menu_reviews');
+        Schema::dropIfExists('order_details');
     }
 };

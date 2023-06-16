@@ -16,4 +16,8 @@ class Seller extends Model
     public function menu(){
         return $this->hasMany(Menu::class);
     }
+
+    public function order_header(){
+        return $this->hasMany(OrderHeader::class);
+    }
 }

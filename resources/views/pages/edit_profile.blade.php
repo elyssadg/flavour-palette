@@ -114,7 +114,7 @@
                     <div class="font-semibold text-heading text-primary">Catering Detail</div>
                     <div>
                         <label for="catering_name" class="form-label">Catering Name</label>
-                        <input type="text" class="input-form" id="catering_name" name="catering_name" placeholder="" value="{{ Auth::user()->seller->name }}">
+                        <input type="text" class="input-form" id="catering_name" name="catering_name" placeholder="Catering Name" value="{{ Auth::user()->seller->name }}">
                     </div>
 
                     <div>
@@ -181,8 +181,7 @@
                     <button type="submit" class="btn-primary">Save</button>
                 </form>
                 </div>
-            @endif
-        </div>
+        @endif
     </div>
 
     <script>

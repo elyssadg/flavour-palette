@@ -9,6 +9,12 @@ class MenuCategory extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $casts = [
+        'id' => 'string'
+    ];
+
     public function menu(){
         return $this->belongsTo(Menu::class, 'menu_id');
     }

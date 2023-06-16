@@ -75,7 +75,7 @@ class SellerController extends Controller
     }
 
     // Take 14 Seller
-    public function getTopSeller() {
+    public static function getTopSeller() {
         return Seller::take(14)->get();
     }
 }

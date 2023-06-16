@@ -21,22 +21,26 @@ class Menu extends Model
     }
 
     public function review(){
-        return $this->hasMany(MenuReview::class, 'menu_id');
+        return $this->hasMany(MenuReview::class);
     }
 
     public function menu_category(){
-        return $this->hasMany(MenuCategory::class, 'menu_id');
+        return $this->hasMany(MenuCategory::class);
     }
 
-    // public function menu_week_detail(){
-    //     return $this->hasMany(menu_week_detail::class, 'menu_id');
-    // }
+    public function menu_week_detail(){
+        return $this->hasMany(MenuWeekDetail::class);
+    }
 
-    // public function cart(){
-    //     return $this->hasMany(Cart::class);
-    // }
+    public function cart(){
+        return $this->hasMany(Cart::class);
+    }
 
-    // public function wishlist(){
-    //     return $this->hasMany(wishlist::class);
-    // }
+    public function wishlist(){
+        return $this->hasMany(Wishlist::class);
+    }
+
+    public function order_detail(){
+        return $this->hasMany(OrderDetail::class);
+    }
 }
