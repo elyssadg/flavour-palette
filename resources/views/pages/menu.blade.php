@@ -133,7 +133,7 @@
         @endif
     </div>
 
-    <div class="w-[85%] mx-auto my-20 flex flex-col gap-20">
+    <div class="w-[85%] mx-auto my-20 flex flex-col gap-5">
         <!-- Utility Bar -->
         <div class="flex flex-col gap-5">
             @if (Auth::user() && Auth::user()->role == 'customer')
@@ -263,19 +263,21 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="ml-auto">
-                            <div class="flex gap-2 items-center justify-center">
-                                @if (Auth::user()->customer->wishlist->where('menu_id', $m->id)->isNotEmpty())
-                                    <a href="/wishlist/remove/{{ $m->id }}" class="flex items-center justify-center w-12 h-12 rounded hover:bg-primary hover:bg-opacity-10">
-                                        <i class="fas fa-heart fa-2x text-primary"></i>
-                                    </a>
-                                @else
-                                    <a href="/wishlist/add/{{ $m->id }}" class="flex items-center justify-center w-12 h-12 rounded hover:bg-primary hover:bg-opacity-10">
-                                        <i class="far fa-heart fa-2x text-primary"></i>
-                                    </a>
-                                @endif
+                        @if (Auth::user() && Auth::user()->role == 'customer')
+                            <div class="ml-auto">
+                                <div class="flex gap-2 items-center justify-center">
+                                    @if (Auth::user()->customer->wishlist->where('menu_id', $m->id)->isNotEmpty())
+                                        <a href="/wishlist/remove/{{ $m->id }}" class="flex items-center justify-center w-12 h-12 rounded hover:bg-primary hover:bg-opacity-10">
+                                            <i class="fas fa-heart fa-2x text-primary"></i>
+                                        </a>
+                                    @else
+                                        <a href="/wishlist/add/{{ $m->id }}" class="flex items-center justify-center w-12 h-12 rounded hover:bg-primary hover:bg-opacity-10">
+                                            <i class="far fa-heart fa-2x text-primary"></i>
+                                        </a>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
                 <script>
