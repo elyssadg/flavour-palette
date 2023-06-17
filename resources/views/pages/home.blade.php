@@ -128,7 +128,7 @@
                                     <div>
                                         <div class="text-secondary text-opacity-50 text-name font-normal">Price</div>
                                         <div id="" class="text-secondary text-subheading font-semibold">
-                                            Rp{{ $m->price }},00
+                                            Rp{{ number_format($m->price/1000, 3, '.', ',') }},00
                                         </div>
                                     </div>
                                     <div class="pl-2 border-l-2 border-secondary border-opacity-20">
