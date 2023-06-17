@@ -33,7 +33,7 @@
         .indicator-container input[type="radio"]:not(:checked)+label {
             background-color: rgba(255, 255, 255, 0.411);
         }
-        
+
         .indicator-container input[type="radio"]:checked+label {
             border: 1px solid white;
             background-color: white;
@@ -113,11 +113,11 @@
                     }
                 }
 
-                function nextSlide(){ 
+                function nextSlide(){
                     radioButtons[indexNow].checked = false;
                     indexNow++;
                     if (indexNow >= slides.length) {
-                        indexNow = 0; 
+                        indexNow = 0;
                     }
                     radioButtons[indexNow].checked = true;
                     changeSlide(indexNow);
@@ -132,8 +132,8 @@
             </script>
         @endif
     </div>
-    
-    <div class="w-[85%] mx-auto my-20 flex flex-col gap-5">
+
+    <div class="w-[85%] mx-auto my-20 flex flex-col gap-20">
         <!-- Utility Bar -->
         <div class="flex flex-col gap-5">
             @if (Auth::user() && Auth::user()->role == 'customer')
@@ -145,7 +145,7 @@
                     </div>
                 </div>
             @endif
-    
+
             <div class="flex flex-col items-center w-full gap-5">
                 <div class="flex items-center w-full gap-5">
                     <div class="flex justify-between items-center gap-5">
@@ -264,19 +264,17 @@
                             </div>
                         </div>
                         <div class="ml-auto">
-                            @if (Auth::user() && Auth::user()->customer)
-                                <div class="flex gap-2 items-center justify-center">
-                                    @if (Auth::user()->customer->wishlist->where('menu_id', $m->id)->isNotEmpty())
-                                        <a href="/wishlist/remove/{{ $m->id }}" class="flex items-center justify-center w-12 h-12 rounded hover:bg-primary hover:bg-opacity-10">
-                                            <i class="fas fa-heart fa-2x text-primary"></i>
-                                        </a>
-                                    @else
-                                        <a href="/wishlist/add/{{ $m->id }}" class="flex items-center justify-center w-12 h-12 rounded hover:bg-primary hover:bg-opacity-10">
-                                            <i class="far fa-heart fa-2x text-primary"></i>
-                                        </a>
-                                    @endif
-                                </div>
-                            @endif
+                            <div class="flex gap-2 items-center justify-center">
+                                @if (Auth::user()->customer->wishlist->where('menu_id', $m->id)->isNotEmpty())
+                                    <a href="/wishlist/remove/{{ $m->id }}" class="flex items-center justify-center w-12 h-12 rounded hover:bg-primary hover:bg-opacity-10">
+                                        <i class="fas fa-heart fa-2x text-primary"></i>
+                                    </a>
+                                @else
+                                    <a href="/wishlist/add/{{ $m->id }}" class="flex items-center justify-center w-12 h-12 rounded hover:bg-primary hover:bg-opacity-10">
+                                        <i class="far fa-heart fa-2x text-primary"></i>
+                                    </a>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -292,7 +290,7 @@
 
     <!-- Layer -->
     <div id="layer-utility" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40"></div>
-    
+
     <!-- Filter Modal -->
     <div id="filter-modal" class="hidden fixed z-50 p-10 bg-white shadow-md rounded" style="top: 55%; left: 50%; transform: translate(-50%, -50%);">
         <form class="w-full flex flex-col items-start gap-5" action="/menu" enctype="multipart/form-data">
@@ -330,7 +328,7 @@
                     @foreach ($categories as $c)
                         <div class="flex">
                             <input type="checkbox" id="{{ $c->id }}" name="categories[]" value="{{ $c->id }}" class="peer hidden">
-                            <label for="{{ $c->id }}" 
+                            <label for="{{ $c->id }}"
                                 class="cursor-pointer rounded border border-secondary py-1 px-3 transition-colors duration-200 peer-checked:bg-secondary peer-checked:text-white peer-checked:border-secondary">
                                 {{ $c->name }}
                             </label>
