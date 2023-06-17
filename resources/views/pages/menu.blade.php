@@ -133,7 +133,7 @@
         @endif
     </div>
     
-    <div class="w-[85%] mx-auto my-20 flex flex-col gap-20">
+    <div class="w-[85%] mx-auto my-20 flex flex-col gap-5">
         <!-- Utility Bar -->
         <div class="flex flex-col gap-5">
             @if (Auth::user() && Auth::user()->role == 'customer')
@@ -194,9 +194,9 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-wrap gap-5 p-1">
+        <div class="flex flex-wrap gap-10 justify-center p-1">
             @foreach ($menus as $index => $m)
-                <div id="menu-{{ $index }}" class="relative w-80 h-fit rounded bg-white shadow-md overflow-hidden cursor-pointer">
+                <div id="menu-{{ $m->id }}" class="relative w-80 h-fit rounded bg-white shadow-md overflow-hidden cursor-pointer">
                     <div>
                         <img class="" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
                     </div>
@@ -208,14 +208,25 @@
                             <div>
                                 <i class="fa fa-star" style="color: #E39D36"></i>
                                 <?php
-                                    if ($m->average_rating < 1) {
+                                    $total_rating = 0;
+                                    $total_review = 0;
+                                ?>
+                                @foreach ($m->review as $rw)
+                                    <?php
+                                        $total_rating = $total_rating + $rw->rating;
+                                        $total_review++;
+                                    ?>
+                                @endforeach
+                                <?php
+                                    if ($total_review < 1) {
                                         ?>
-                                        <span class="text-secondary font-normal text-name">No Rating</span>
+                                        <span class="text-secondary font-normal text-subname">No Rating</span>
                                         <?php
                                     } else {
+                                        $total_rating = $total_rating / $total_review;
                                         ?>
-                                        <span class="text-secondary font-semibold text-name">
-                                            {{ number_format($m->average_rating, 2, '.', '') }}
+                                        <span class="font-semibold">
+                                            {{ number_format((float)$total_rating, 2, '.', '') }}
                                         </span>
                                         <sub>/5</sub>
                                         <?php
@@ -253,25 +264,27 @@
                             </div>
                         </div>
                         <div class="ml-auto">
-                            <div class="flex gap-2 items-center justify-center">
-                                @if (Auth::user()->customer->wishlist->where('menu_id', $m->id)->isNotEmpty())
-                                    <a href="/wishlist/remove/{{ $m->id }}" class="flex items-center justify-center w-12 h-12 rounded hover:bg-primary hover:bg-opacity-10">
-                                        <i class="fas fa-heart fa-2x text-primary"></i>
-                                    </a>
-                                @else
-                                    <a href="/wishlist/add/{{ $m->id }}" class="flex items-center justify-center w-12 h-12 rounded hover:bg-primary hover:bg-opacity-10">
-                                        <i class="far fa-heart fa-2x text-primary"></i>
-                                    </a>
-                                @endif
-                            </div>
+                            @if (Auth::user() && Auth::user()->customer)
+                                <div class="flex gap-2 items-center justify-center">
+                                    @if (Auth::user()->customer->wishlist->where('menu_id', $m->id)->isNotEmpty())
+                                        <a href="/wishlist/remove/{{ $m->id }}" class="flex items-center justify-center w-12 h-12 rounded hover:bg-primary hover:bg-opacity-10">
+                                            <i class="fas fa-heart fa-2x text-primary"></i>
+                                        </a>
+                                    @else
+                                        <a href="/wishlist/add/{{ $m->id }}" class="flex items-center justify-center w-12 h-12 rounded hover:bg-primary hover:bg-opacity-10">
+                                            <i class="far fa-heart fa-2x text-primary"></i>
+                                        </a>
+                                    @endif
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
                 <script>
-                    // document.getElementById('menu-{{ $index }}').addEventListener('click', function(event) {
-                    //     window.location.href = 'menu/{{ $m->id }}';
-                    //     event.stopPropagation();
-                    // });
+                    document.getElementById('menu-{{ $m->id }}').addEventListener('click', function(event) {
+                        window.location.href = 'menu/{{ $m->id }}?date_btn={{ $m->available_date }}';
+                        event.stopPropagation();
+                    });
                 </script>
             @endforeach
         </div>
