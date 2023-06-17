@@ -79,8 +79,11 @@
             <div class="flex h-max overflow-x-scroll hide-scroll-bar">
                 <div class="flex gap-5 p-1">
                     @foreach ($menus as $index => $m)
-                        <div id="menu-{{ $index }}" class="relative w-80 h-fit rounded bg-white shadow-md overflow-hidden cursor-pointer">
+                        <div id="menu-{{ $m->id }}" class="relative w-80 h-fit rounded bg-white shadow-md overflow-hidden cursor-pointer">
                             <div>
+                                <a href="menu/{{ $m->id }}">
+
+                                </a>
                                 <img class="" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
                             </div>
                             <div class="flex flex-col gap-5 p-5">
@@ -150,7 +153,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                @else
+                                @elseif (Auth::user() && Auth::user()->role == 'seller')
                                     <div class="flex items-center justify-center">
                                         <button id="edit-btn-{{ $m->id }}" class="w-3/4 btn-primary">Edit</button>
                                         <a href="/menu/{{ $m->id }}/delete" class="ml-auto text-primary text-subheading font-medium">Delete</a>
@@ -247,10 +250,10 @@
                             </div>
                         </div>
                         <script>
-                            // document.getElementById('menu-{{ $index }}').addEventListener('click', function(event) {
-                            //     window.location.href = 'menu/{{ $m->id }}';
-                            //     event.stopPropagation();
-                            // });
+                            document.getElementById('menu-{{ $m->id }}').addEventListener('click', function(event) {
+                                window.location.href = 'menu/{{ $m->id }}';
+                                event.stopPropagation();
+                            });
                         </script>
                     @endforeach
                 </div>

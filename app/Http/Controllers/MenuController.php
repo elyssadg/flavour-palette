@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\File;
 use App\Models\Menu;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 
 class MenuController extends Controller
 {
@@ -62,7 +63,7 @@ class MenuController extends Controller
             $menus = Menu::join('menu_week_details', 'menu_week_details.menu_id', '=', 'menus.id')
                         ->where('status', 'available')
                         ->where('available_date', $selectedDate)
-                        ->select('menus.*')
+                        ->select('menus.*', 'available_date')
                         ->paginate(10);
             
             $dates = [];
@@ -79,7 +80,25 @@ class MenuController extends Controller
 
     // Menu Detail View
     public function menuDetail($id) {
+        $date = request('date_btn');
+        $menu = Menu::find($id);
 
+        if ($date == null) {
+            $temp = Carbon::now()->addDays(7)->format('Y-m-d');
+            $date = Carbon::createFromFormat('Y-m-d', $temp)->startOfWeek();
+            $menu = Menu::join('menu_week_details', 'menu_week_details.menu_id', '=', 'menus.id')
+                                ->where('menu_week_details.available_date', '>=', $date)
+                                ->first();
+            $menu->available_date = Carbon::parse($menu->available_date)->format('l, d F Y');
+        } else {
+            $date = date('Y-m-d', strtotime($date));
+            $menu = Menu::join('menu_week_details', 'menu_week_details.menu_id', '=', 'menus.id')
+                                    ->where('menu_week_details.available_date', '=', $date)
+                                    ->first();
+            $menu->available_date = Carbon::parse($menu->available_date)->format('l, d F Y');
+        }
+
+        return view('pages.menu_detail', compact('menu'));
     }
 
     // Get Menu by Id

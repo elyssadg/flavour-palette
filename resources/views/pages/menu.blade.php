@@ -281,20 +281,19 @@
     <div id="layer-utility" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40"></div>
     
     <!-- Filter Modal -->
-    <div id="filter-modal" class="hidden fixed z-50 p-10 bg-white shadow-md rounded" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
-        <form class="flex flex-col items-start gap-3" action="/menu" enctype="multipart/form-data">
+    <div id="filter-modal" class="hidden fixed z-50 p-10 bg-white shadow-md rounded" style="top: 55%; left: 50%; transform: translate(-50%, -50%);">
+        <form class="w-full flex flex-col items-start gap-5" action="/menu" enctype="multipart/form-data">
             <label for="filter" class="font-semibold text-heading text-primary">Filter</label>
             <div class="flex flex-col gap-2 w-full">
                 <label class="text-secondary font-medium text-subheading">Price Range</label>
-
-                <div class="flex items-center justify-between w-full border-b-2 border-gray-200 pb-3">
+                <div class="flex items-center justify-between w-full">
                     <input class="input-form" type="number" name="lowest_price" id="lowest_price" placeholder="Lowest Price">
                     <hr class="mt-3 w-[5%] h-1 border-secondary">
                     <input class="input-form" type="number" name="highest_price" id="highest_price" placeholder="Highest Price">
-
                 </div>
             </div>
-            <div class="flex flex-col items-start gap-3 border-b-2 border-gray-200 pb-3 w-full">
+            <hr class="w-full h-[2px] bg-secondary bg-opacity-20">
+            <div class="flex flex-col items-start gap-3 w-full">
                 <label class="text-secondary font-medium text-subheading">Rating</label>
                 <div class="flex flex-col gap-2">
                     <div class="flex items-center gap-3 font-medium text-subheading text-secondary">
@@ -311,7 +310,7 @@
                     </div>
                 </div>
             </div>
-
+            <hr class="w-full h-[2px] bg-primary bg-opacity-20">
             <div class="flex flex-col items-start gap-5 w-full">
                 <label class="text-secondary font-medium text-subheading">Category</label>
                 <div class="flex flex-wrap gap-2">
@@ -327,7 +326,8 @@
                 </div>
             </div>
             <input type="hidden" name="date_btn" value="{{ $selectedDate }}">
-            <button type="submit" class="btn-primary" name="filter" value="submit">Filter</button>
+
+            <button type="submit" class="w-full btn-primary" name="filter" value="submit">Filter</button>
         </form>
     </div>
 
@@ -347,7 +347,7 @@
                 </div>
             </div>
             <input type="hidden" name="date_btn" value="{{ $selectedDate }}">
-            <button type="submit" class="btn-primary">Sort</button>
+            <button type="submit" class="mr-5 w-full btn-primary">Sort</button>
         </form>
     </div>
 
