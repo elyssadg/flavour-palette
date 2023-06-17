@@ -155,60 +155,102 @@
                                         <button id="edit-btn-{{ $m->id }}" class="w-3/4 btn-primary">Edit</button>
                                         <a href="/menu/{{ $m->id }}/delete" class="ml-auto text-primary text-subheading font-medium">Delete</a>
                                     </div>
-                                    <div id="layer-{{ $m->id }}" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+                                    <div id="layer-{{ $m->id }}" class="z-50 hidden fixed inset-0 bg-black bg-opacity-50"></div>
                                     <div id="edit-modal-{{ $m->id }}" class="hidden fixed w-5/12 z-50 p-10 bg-white shadow-md rounded" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                                        <form action="/menu/{{ $m->id }}/edit" id="menu-update-form" class="flex flex-col gap-5 w-full" method="POST" enctype="multipart/form-data">
+                                        <form action="/menu/edit" id="menu-update-form-{{ $m->id }}" class="flex flex-col gap-5 w-full" method="POST" enctype="multipart/form-data" style="z-index: 100;">
                                             {{ csrf_field() }}
                                             <div class="font-semibold text-heading text-primary">Update Menu Detail</div>
+                                            <input type="hidden" name="menu_id" value="{{ $m->id }}">
+                                            <div>
+                                                <label for="menu_name" class="form-label">Image</label>
+                                                <input type="file" class="input-form p-0 ring-0" name="menu_image" placeholder="Menu Image">
+                                            </div>
+
                                             <div>
                                                 <label for="menu_name" class="form-label">Name</label>
-                                                <input type="text" class="input-form" id="menu_name" name="menu_name" placeholder="Menu Name" value="{{ $m->name }}">
+                                                <input type="text" class="input-form" name="menu_name" placeholder="Menu Name" value="{{ $m->name }}">
                                             </div>
 
                                             <div>
                                                 <label for="menu_price" class="form-label">Price</label>
-                                                <input type="number" class="input-form" id="menu_price" name="menu_price" placeholder="Menu Price" value="{{ $m->price }}">
+                                                <input type="number" class="input-form" name="menu_price" placeholder="Menu Price" value="{{ $m->price }}">
                                             </div>
 
                                             <div>
                                                 <label for="menu_description" class="form-label">Description</label>
-                                                <textarea class="input-form" id="menu_description" name="menu_description" placeholder="Menu Price" value="{{ $m->description }}"></textarea>
+                                                <textarea class="input-form" name="menu_description" placeholder="Menu Description">{{ $m->description }}</textarea>
                                             </div>
 
                                             <div>
                                                 <label for="menu_category" class="form-label">Category</label>
-                                                <div class="text-secondary font-semibold text-subheading">
-                                                    @foreach ($categories as $category)
-                                                        <option value="{{ $category->id }}" {{ $m->menu_category->where('category_id', $category->id)->isNotEmpty() ? 'selected' : '' }}>{{ $category->name }}</option>
+                                                <div class="mt-2 flex flex-wrap gap-2 text-secondary font-semibold text-subheading" style="z-index: 200;">
+                                                    @foreach ($categories as $c)
+                                                        <div class="flex">
+                                                            <input type="checkbox" name="categories[]" id="cb-{{ $m->id }}-{{ $c->id }}" value="{{ $c->id }}" class="peer hidden" {{ $m->menu_category->where('category_id', $c->id)->isNotEmpty() ? 'checked' : '' }}>
+                                                            <label id="lbl-{{ $m->id }}-{{ $c->id }}" for="cb-{{ $m->id }}-{{ $c->id }}" 
+                                                                class="cursor-pointer rounded border border-secondary py-1 px-3 transition-colors duration-200 peer-checked:bg-secondary peer-checked:text-white peer-checked:border-secondary">
+                                                                {{ $c->name }}
+                                                            </label>
+                                                            <script>
+                                                                document.getElementById('lbl-{{ $m->id }}-{{ $c->id }}').addEventListener('click', function(){
+                                                                    document.getElementById('cb-{{ $m->id }}-{{ $c->id }}" value="{{ $c->id }}').checked = !document.getElementById('cb-{{ $m->id }}-{{ $c->id }}" value="{{ $c->id }}').checked;
+                                                                });
+                                                            </script>
+                                                        </div>
                                                     @endforeach
                                                 </div>
                                             </div>
-            
-                                            <div id="edit-menu-error" class="text-center text-red-500 text-name font-semibold mt-5"></div>
+                                            <div id="menu-update-error-{{ $m->id }}" class="text-center text-red-500 text-name font-semibold mt-5"></div>
             
                                             <button type="submit" class="btn-primary">Save</button>
                                         </form>
                                     </div>
+                                    <script>
+                                        document.getElementById('edit-btn-{{ $m->id }}').addEventListener('click', function(event){
+                                            event.preventDefault();
+                                            document.getElementById('edit-modal-{{ $m->id }}').classList.remove('hidden');
+                                            document.getElementById('layer-{{ $m->id }}').classList.remove('hidden');
+                                            event.stopPropagation();
+                                        });
+
+                                        document.getElementById('layer-{{ $m->id }}').addEventListener('click', function() {
+                                            document.getElementById('edit-modal-{{ $m->id }}').classList.add('hidden');
+                                            document.getElementById('layer-{{ $m->id }}').classList.add('hidden');
+                                            event.stopPropagation();
+                                        });
+
+
+                                        $('#menu-update-form-{{ $m->id }}').submit(function(e) {
+                                            e.preventDefault();
+                                            var form_data = new FormData(this);
+                                            $.ajax({
+                                                url: '/menu/edit',
+                                                method: 'POST',
+                                                data: form_data,
+                                                dataType: 'json',
+                                                contentType: false,
+                                                processData: false,
+                                                success: function(response) {
+                                                    if (response.error) {
+                                                        $('#menu-update-error-{{ $m->id }}').text(response.error_message).show();
+                                                    } else {
+                                                        window.location.href = response.redirect;
+                                                    }
+                                                },
+                                                error: function(xhr, status, error) {
+                                                    console.error(error);
+                                                }
+                                            });
+                                        });
+                                    </script>
                                 @endif
                             </div>
                         </div>
                         <script>
-                            document.getElementById('edit-btn-{{ $m->id }}').addEventListener('click', function(event){
-                                event.preventDefault();
-                                document.getElementById('edit-modal-{{ $m->id }}').classList.remove('hidden');
-                                document.getElementById('layer-{{ $m->id }}').classList.remove('hidden');
-                            });
-
-                            document.getElementById('layer-{{ $m->id }}').addEventListener('click', function() {
-                                document.getElementById('edit-modal-{{ $m->id }}').classList.add('hidden');
-                                document.getElementById('layer-{{ $m->id }}').classList.add('hidden');
-                            });
-
-                            document.getElementById('menu-{{ $m->id }}').addEventListener('click', function(){
-                                if (!event.target.classList.contains('btn-primary')) {
-                                    window.location.href = 'menu/{{ $m->id }}';
-                                }
-                            });
+                            // document.getElementById('menu-{{ $index }}').addEventListener('click', function(event) {
+                            //     window.location.href = 'menu/{{ $m->id }}';
+                            //     event.stopPropagation();
+                            // });
                         </script>
                     @endforeach
                 </div>
@@ -246,19 +288,6 @@
                                 <img src="{{ Storage::url('profile/user/'.$seller->user->profile_picture) }}" alt="seller image" class="w-fit h-fit">
                             </div>
                         @endforeach
-                        <div class="w-[13.5%] bg-orange h-1/2 flex justify-center items-center"></div>
-                        <div class="w-[13.5%] bg-orange h-1/2 flex justify-center items-center"></div>
-                        <div class="w-[13.5%] bg-orange h-1/2 flex justify-center items-center"></div>
-                        <div class="w-[13.5%] bg-orange h-1/2 flex justify-center items-center"></div>
-                        <div class="w-[13.5%] bg-orange h-1/2 flex justify-center items-center"></div>
-                        <div class="w-[13.5%] bg-orange h-1/2 flex justify-center items-center"></div>
-                        <div class="w-[13.5%] bg-orange h-1/2 flex justify-center items-center"></div>
-                        <div class="w-[13.5%] bg-orange h-1/2 flex justify-center items-center"></div>
-                        <div class="w-[13.5%] bg-orange h-1/2 flex justify-center items-center"></div>
-                        <div class="w-[13.5%] bg-orange h-1/2 flex justify-center items-center"></div>
-                        <div class="w-[13.5%] bg-orange h-1/2 flex justify-center items-center"></div>
-                        <div class="w-[13.5%] bg-orange h-1/2 flex justify-center items-center"></div>
-                        <div class="w-[13.5%] bg-orange h-1/2 flex justify-center items-center"></div>
                     </div>
                 </div>
             </div>

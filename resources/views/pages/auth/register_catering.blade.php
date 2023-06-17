@@ -56,7 +56,6 @@
                             </span>
                             <input type="file" id="halal_certification" name="halal_certification" class="hidden">
                         </label>
-                        {{-- <input type="file" class="" id="halal_certification" name="halal_certification" style="width: 20vw; border: 0px solid rgba(128, 128, 128, 0.418);}"> --}}
                     </div>
                 </div>
             </div>

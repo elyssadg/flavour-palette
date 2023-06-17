@@ -35,8 +35,10 @@
                     <img src="{{ Storage::url('assets/general/logo.png') }}" class="h-14" alt="flavour-palette logo" />
                 </a>
                 <a href="{{ url('/') }}" class="nav-menu {{ request()->route()->getName() == 'home' ? 'text-secondary border-secondary' : 'text-primary' }}">Home</a>
-                <a href="{{ url('/catalog') }}" class="nav-menu {{ request()->route()->getName() == 'menu' ? 'text-secondary border-secondary' : 'text-primary' }}">Menu</a>
-                <a href="#about-us" class="nav-menu {{ request()->route()->getName() == 'about' ? 'text-secondary border-secondary' : 'text-primary' }}">About Us</a>
+                <a href="{{ url('/menu') }}" class="nav-menu {{ request()->route()->getName() == 'menu' ? 'text-secondary border-secondary' : 'text-primary' }}">Menu</a>
+                @if (!Auth::user() && Auth::user()->role == 'customer')
+                    <a href="#about-us" class="nav-menu {{ request()->route()->getName() == 'about' ? 'text-secondary border-secondary' : 'text-primary' }}">About Us</a>
+                @endif
             </div>
             @if (!Auth::user())
                 <div class="flex gap-5">

@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::group(['middleware' => 'seller'], function(){
         Route::post('/profile/edit/catering', [SellerController::class, 'editCatering']);
         Route::get('/menu/{id}/delete', [MenuController::class, 'deleteMenu']);
+        Route::post('/menu/edit', [MenuController::class, 'editMenu']);
     });
 
     Route::group(['middleware' => 'customer'], function(){

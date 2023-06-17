@@ -119,12 +119,12 @@
 
                     <div>
                         <label for="description" class="form-label">Description</label>
-                        <textarea class="input-form" name="description" id="description" value="{{ Auth::user()->seller->description }}"></textarea>
+                        <textarea class="input-form" name="description" id="description">{{ Auth::user()->seller->description }}</textarea>
                     </div>
 
                     <div>
                         <label for="address" class="block text-sm font-medium leading-6 text-gray-900">Address</label>
-                        <textarea class="input-form" name="address" id="address" value="{{ Auth::user()->seller->address }}"></textarea>
+                        <textarea class="input-form" name="address" id="address">{{ Auth::user()->seller->address }}</textarea>
                     </div>
 
                     <div>

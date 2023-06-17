@@ -11,9 +11,7 @@ class MenuCategory extends Model
 
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $casts = [
-        'id' => 'string'
-    ];
+    protected $primaryKey = ['menu_id', 'category_id'];
 
     public function menu(){
         return $this->belongsTo(Menu::class, 'menu_id');
