@@ -7,45 +7,47 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
-        // User
-        $userSeeder = new UserSeeder();
-        $userId = $userSeeder->run();
+        // // User
+        // $userSeeder = new UserSeeder();
+        // $userId = $userSeeder->run();
 
-        // Seller
-        $cateringSeeder = new SellerSeeder();
-        $cateringId = $cateringSeeder->run($userId);
+        // // Seller
+        // $cateringSeeder = new SellerSeeder();
+        // $cateringId = $cateringSeeder->run($userId);
 
-        // Customer
-        $customerSeeder = new CustomerSeeder();
-        $customerId = $customerSeeder->run($userId);
+        // // Customer
+        // $customerSeeder = new CustomerSeeder();
+        // $customerId = $customerSeeder->run($userId);
 
-        // Menu
-        $menuSeeder = new MenuSeeder();
-        $menuId = $menuSeeder->run($cateringId);
+        // // Menu
+        // $menuSeeder = new MenuSeeder();
+        // $menuId = $menuSeeder->run($cateringId);
 
-        // Review
-        $reviewSeeder = new MenuReviewSeeder();
-        $reviewSeeder->run($menuId, $customerId);
+        // // Review
+        // $reviewSeeder = new MenuReviewSeeder();
+        // $reviewSeeder->run($menuId, $customerId);
 
-        // Category
-        $categorySeeder = new CategorySeeder();
-        $categoryId = $categorySeeder->run();
+        // // Category
+        // $categorySeeder = new CategorySeeder();
+        // $categoryId = $categorySeeder->run();
 
-        // MenuCategory
-        $menuCategorySeeder = new MenuCategorySeeder();
-        $menuCategorySeeder->run($menuId, $categoryId);
+        // // MenuCategory
+        // $menuCategorySeeder = new MenuCategorySeeder();
+        // $menuCategorySeeder->run($menuId, $categoryId);
 
-        // OrderHeader
-        $orderHeaderSeeder = new OrderHeaderSeeder();
-        $orderHeaderSeeder->run($customerId, $cateringId);
-        $menuWeekHeaderSeeder = new MenuWeekHeaderSeeder();
-        $menuWeekHeaderId = $menuWeekHeaderSeeder->run();
-        $menuWeekDetailSeeder = new MenuWeekDetailSeeder();
-        $menuWeekDetailSeeder->run($menuWeekHeaderId, $menuId);
+        // // OrderHeader
+        // $orderHeaderSeeder = new OrderHeaderSeeder();
+        // $orderHeaderSeeder->run($customerId, $cateringId);
+
+        // $menuWeekHeaderSeeder = new MenuWeekHeaderSeeder();
+        // $menuWeekHeaderId = $menuWeekHeaderSeeder->run();
+        // $menuWeekDetailSeeder = new MenuWeekDetailSeeder();
+        // $menuWeekDetailSeeder->run($menuWeekHeaderId, $menuId);
     }
 }
