@@ -19,6 +19,7 @@ class WishlistController extends Controller
                             ->where('customer_id', '=', Auth::user()->customer->id)
                             ->where('status', '=', 'available')
                             ->where('available_date', '>=', $date)
+                            ->distinct('menus.id')
                             ->get();
 
         return view('pages.wishlist', compact('wishlist'));

@@ -119,7 +119,8 @@ class MenuController extends Controller
     // Delete Menu
     public function deleteMenu($id) {
         $menu = Menu::find($id);
-        $menu->delete();
+        $menu->status = 'archived';
+        $menu->save();
 
         $temp = Carbon::now()->addDays(7)->format('Y-m-d');
         $date = Carbon::createFromFormat('Y-m-d', $temp)->startOfWeek();
