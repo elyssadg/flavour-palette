@@ -157,9 +157,11 @@ class MenuSeeder extends Seeder
             $menuId[] = Str::uuid()->toString();
         }
 
+        $counter = 0;
+
         Menu::create([
             'id' => $menuId[0],
-            'seller_id' => $sellerId,
+            'seller_id' => $sellerId[0],
             'name' => 'Nasi Ayam Keju',
             'price' => 15000,
             'status' => 'available',
@@ -168,7 +170,7 @@ class MenuSeeder extends Seeder
 
         Menu::create([
             'id' => $menuId[1],
-            'seller_id' => $sellerId,
+            'seller_id' => $sellerId[0],
             'name' => 'Nasi Ayam Coklat',
             'price' => 25000,
             'status' => 'available',
@@ -177,7 +179,7 @@ class MenuSeeder extends Seeder
 
         Menu::create([
             'id' => $menuId[2],
-            'seller_id' => $sellerId,
+            'seller_id' => $sellerId[0],
             'name' => 'Nasi Ayam Kriuk',
             'price' => 30000,
             'status' => 'available',
@@ -186,7 +188,7 @@ class MenuSeeder extends Seeder
 
         Menu::create([
             'id' => $menuId[3],
-            'seller_id' => $sellerId,
+            'seller_id' => $sellerId[0],
             'name' => 'Nasi Ayam',
             'price' => 24000,
             'status' => 'available',
@@ -195,7 +197,7 @@ class MenuSeeder extends Seeder
 
         Menu::create([
             'id' => $menuId[4],
-            'seller_id' => $sellerId,
+            'seller_id' => $sellerId[0],
             'name' => 'Nasi Ayam Bakar Kecap',
             'price' => 30000,
             'status' => 'available',
@@ -204,7 +206,7 @@ class MenuSeeder extends Seeder
 
         Menu::create([
             'id' => $menuId[5],
-            'seller_id' => $sellerId,
+            'seller_id' => $sellerId[0],
             'name' => 'Nasi Goreng Special',
             'price' => 25000,
             'status' => 'available',
@@ -214,7 +216,7 @@ class MenuSeeder extends Seeder
 
         Menu::create([
             'id' => $menuId[6],
-            'seller_id' => $sellerId,
+            'seller_id' => $sellerId[0],
             'name' => 'Spagetti Bolognese',
             'price' => 45000,
             'status' => 'available',
@@ -224,7 +226,7 @@ class MenuSeeder extends Seeder
 
         Menu::create([
             'id' => $menuId[7],
-            'seller_id' => $sellerId,
+            'seller_id' => $sellerId[0],
             'name' => 'Nasi Uduk Komplit',
             'price' => 25000,
             'status' => 'available',
@@ -234,7 +236,7 @@ class MenuSeeder extends Seeder
 
         Menu::create([
             'id' => $menuId[8],
-            'seller_id' => $sellerId,
+            'seller_id' => $sellerId[0],
             'name' => 'Ayam Parmesan',
             'price' => 45000,
             'status' => 'available',
@@ -244,7 +246,7 @@ class MenuSeeder extends Seeder
 
         Menu::create([
             'id' => $menuId[9],
-            'seller_id' => $sellerId,
+            'seller_id' => $sellerId[0],
             'name' => 'Nasi Goreng Seafood',
             'price' => 35000,
             'status' => 'archived',
@@ -254,7 +256,7 @@ class MenuSeeder extends Seeder
 
         Menu::create([
             'id' => $menuId[10],
-            'seller_id' => $sellerId,
+            'seller_id' => $sellerId[0],
             'name' => 'Nasi Ayam Taliwang',
             'price' => 30000,
             'status' => 'archived',
@@ -264,7 +266,7 @@ class MenuSeeder extends Seeder
 
         Menu::create([
             'id' => $menuId[11],
-            'seller_id' => $sellerId,
+            'seller_id' => $sellerId[0],
             'name' => 'Nasi Ikan Asam Manis',
             'price' => 35000,
             'status' => 'archived',
@@ -274,7 +276,7 @@ class MenuSeeder extends Seeder
 
         Menu::create([
             'id' => $menuId[12],
-            'seller_id' => $sellerId,
+            'seller_id' => $sellerId[0],
             'name' => 'Nasi Tim Ayam',
             'price' => 25000,
             'status' => 'archived',
@@ -284,7 +286,7 @@ class MenuSeeder extends Seeder
 
         Menu::create([
             'id' => $menuId[13],
-            'seller_id' => $sellerId,
+            'seller_id' => $sellerId[0],
             'name' => 'Bubur Ayam',
             'price' => 18000,
             'status' => 'available',
@@ -294,7 +296,7 @@ class MenuSeeder extends Seeder
 
         Menu::create([
             'id' => $menuId[14],
-            'seller_id' => $sellerId,
+            'seller_id' => $sellerId[0],
             'name' => 'Nasi Ayam Rica-Rica',
             'price' => 35000,
             'status' => 'available',
@@ -304,7 +306,7 @@ class MenuSeeder extends Seeder
 
         Menu::create([
             'id' => $menuId[15],
-            'seller_id' => $sellerId,
+            'seller_id' => $sellerId[0],
             'name' => 'Mie Goreng jawa',
             'price' => 28000,
             'status' => 'available',
@@ -314,7 +316,7 @@ class MenuSeeder extends Seeder
 
         Menu::create([
             'id' => $menuId[16],
-            'seller_id' => $sellerId,
+            'seller_id' => $sellerId[0],
             'name' => 'Nasi Ikan Goreng Sambal Matah',
             'price' => 35000,
             'status' => 'available',
@@ -324,7 +326,7 @@ class MenuSeeder extends Seeder
 
         Menu::create([
             'id' => $menuId[17],
-            'seller_id' => $sellerId,
+            'seller_id' => $sellerId[0],
             'name' => 'Tahu Telur',
             'price' => 15000,
             'status' => 'deleted',
@@ -337,7 +339,7 @@ class MenuSeeder extends Seeder
         foreach ($menus as $menu) {
             Menu::create([
                 'id' => $menuId[$counter++],
-                'seller_id' => $sellerId,
+                'seller_id' => $sellerId[0],
                 'name' => $menu['name'],
                 'price' => mt_rand(15, 50) * 1000,
                 'status' => 'available',

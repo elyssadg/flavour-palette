@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->string('name');
-            $table->string('description');
+            $table->string('description', 500);
             $table->double('store_rating')->default(0);
             $table->string('halal_certification');
             $table->string('business_permit');
