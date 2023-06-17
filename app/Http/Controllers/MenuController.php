@@ -74,10 +74,10 @@ class MenuController extends Controller
                         ->paginate(10);
             
             $dates = [];
-            $temp_date = $startDate->copy();
-            while ($temp_date <= $startDate->copy()->endOfWeek()) {
-                $dates[] = $temp_date->copy();
-                $temp_date->addDay();
+            $tempDate = $startDate->copy();
+            while ($tempDate <= $startDate->copy()->endOfWeek()) {
+                $dates[] = $tempDate->copy();
+                $tempDate->addDay();
             }
 
             return view('pages.menu', compact('menus', 'dates', 'selectedDate', 'categories'));
@@ -92,23 +92,44 @@ class MenuController extends Controller
         if ($date == null) {
             $temp = Carbon::now()->addDays(7)->format('Y-m-d');
             $date = Carbon::createFromFormat('Y-m-d', $temp)->startOfWeek();
-            $menu = Menu::select('menus.*', 'available_date')
-                            ->join('menu_week_details', 'menu_week_details.menu_id', '=', 'menus.id')
-                            ->where('menus.id', '=', $id)
-                            ->where('status', '=', 'available')
-                            ->where('available_date', '>=', $date)
-                            ->first();
-            $menu->available_date = Carbon::parse($menu->available_date)->format('l, d F Y');
         } else {
             $date = date('Y-m-d', strtotime($date));
-            $menu = Menu::join('menu_week_details', 'menu_week_details.menu_id', '=', 'menus.id')
-                                    ->where('menu_week_details.available_date', '=', $date)
-                                    ->find($id)
-                                    ->first();
-            $menu->available_date = Carbon::parse($menu->available_date)->format('l, d F Y');
         }
 
+        $menu = Menu::select('menus.*', 'available_date')
+                        ->join('menu_week_details', 'menu_week_details.menu_id', '=', 'menus.id')
+                        ->where('menus.id', '=', $id)
+                        ->where('status', '=', 'available')
+                        ->where('available_date', '>=', $date)
+                        ->first();
+        $menu->available_date = Carbon::parse($menu->available_date)->format('l, d F Y');
+
         return view('pages.menu_detail', compact('menu'));
+    }
+
+    // Search Menu
+    public function search(Request $request){
+        // Menu Category
+        $categories = CategoryController::getAllCategory();
+
+        // Set Up Date Filter
+        $selectedDate = $request->input('date_btn');
+        $currentDate = Carbon::now()->addDays(7)->format('Y-m-d');
+        $startDate = Carbon::createFromFormat('Y-m-d', $currentDate)->startOfWeek();
+        if ($selectedDate == null) $selectedDate = $startDate;
+        $dates = [];
+        $tempDate = $startDate->copy();
+        while ($tempDate <= $startDate->copy()->endOfWeek()) {
+            $dates[] = $tempDate->copy();
+            $tempDate->addDay();
+        }
+
+        $menus = Menu::where('name','LIKE',"%$request->search%")
+                        ->join('menu_week_details', 'menu_week_details.menu_id', '=', 'menus.id')
+                        ->where('available_date', $selectedDate)
+                        ->get();
+
+        return view('pages.menu', compact('categories','dates','menus', 'selectedDate'));
     }
 
     // Get Menu by Id

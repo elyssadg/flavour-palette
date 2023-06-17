@@ -21,6 +21,7 @@ use App\Http\Controllers\CartController;
 Route::get('/', [MenuController::class, 'home'])->name('home');
 Route::get('/menu', [MenuController::class, 'menu'])->name("menu");
 Route::get('/menu/{id}', [MenuController::class, 'menuDetail']);
+Route::get('/search', [MenuController::class, 'search']);
 
 Route::group(['middleware' => 'guest'], function(){
     Route::get('/register', [UserController::class, 'register'])->name("register");
