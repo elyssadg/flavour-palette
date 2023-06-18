@@ -26,4 +26,8 @@
     .footer-label {
         @apply font-light text-name text-white
     }
+
+    .line {
+        @apply w-full h-1 bg-primary bg-opacity-20
+    }
 }

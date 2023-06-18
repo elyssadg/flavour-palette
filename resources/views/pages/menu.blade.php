@@ -314,7 +314,7 @@
                     <input class="input-form" type="number" name="highest_price" id="highest_price" placeholder="Highest Price">
                 </div>
             </div>
-            <hr class="w-full h-[2px] bg-secondary bg-opacity-20">
+            <hr class="line">
             <div class="flex flex-col items-start gap-3 w-full">
                 <label class="text-secondary font-medium text-subheading">Rating</label>
                 <div class="flex flex-col gap-2">
@@ -332,7 +332,7 @@
                     </div>
                 </div>
             </div>
-            <hr class="w-full h-[2px] bg-primary bg-opacity-20">
+            <hr class="line">
             <div class="flex flex-col items-start gap-5 w-full">
                 <label class="text-secondary font-medium text-subheading">Category</label>
                 <div class="flex flex-wrap gap-2">

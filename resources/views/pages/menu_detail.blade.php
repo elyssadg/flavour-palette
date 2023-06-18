@@ -129,10 +129,10 @@
                                 {{$menu->name}}
                             </div>
                         </div>
-                        <hr class="w-full h-1 bg-primary bg-opacity-20">
+                        <hr class="line">
                         <div class="flex items-center justify-center w-full">
                             <label class="flex items-center justify-center bg-primary text-white rounded-l w-10 h-10" id="decrease">-</label>
-                            <input class="w-10 h-10 text-center outline-none border-y border-primary" type="number" id="quantity" value="1">
+                            <input class="w-10 h-10 text-center outline-none border-y border-primary" type="number" id="quantity" value="1" disabled>
                             <label class="flex items-center justify-center bg-primary text-white rounded-r w-10 h-10" id="increase">+</label>
                         </div>
                         <div class="flex justify-between items-center w-full">
