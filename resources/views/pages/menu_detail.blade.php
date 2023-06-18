@@ -126,50 +126,50 @@
                     @endif
                 </div>
             </div>
-            @if (Auth::user() && Auth::user()->role == 'customer')
-                <div class="w-[25%] rounded shadow bg-white border border-primary border-opacity-20 h-fit">
-                    <form action="{{ url('/cart/add') }}" method="POST" class="flex flex-col gap-5 p-5">
-                        {{ @csrf_field() }}
-                        <input type="hidden" id="available_date" name="available_date" value="{{ $menu->available_date }}">
-                        <input type="hidden" id="menu_id" name="menu_id" value="{{ $menu->id }}"/>
-                        <input type="hidden" id="quantity-submit" name="quantity" value="1">
-                        <div class="text-secondary text-heading font-semibold">Add to Cart</div>
-                        <div class="flex gap-2 items-center">
-                            <img class="w-10 h-10 object-cover rounded" src="{{ Storage::url("profile/menu/".$menu->profile_menu )}}"/>
-                            <div class="text-secondary text-subheading font-medium">
-                                {{$menu->name}}
-                            </div>
-                        </div>
-                        <hr class="line">
-                        <div class="flex items-center justify-center w-full">
-                            <label class="flex items-center justify-center bg-primary text-white rounded-l w-10 h-10" id="decrease">-</label>
-                            <input class="w-10 h-10 text-center outline-none border-y border-primary" type="number" id="quantity" value="1" disabled>
-                            <label class="flex items-center justify-center bg-primary text-white rounded-r w-10 h-10" id="increase">+</label>
-                        </div>
-                        <div class="flex justify-between items-center w-full">
-                            <label class="text-secondary text-subheading font-medium">Subtotal</label>
-                            <span id="total_price" value="{{ $menu->price }}" class="text-secondary text-subheading font-medium">Rp{{ number_format($menu->price/1000, 3, '.', ',') }},00</span>
-                        </div>
-                        <div class="flex flex-col gap-2 items-center justify-center">
-                            <button type="submit" class="w-full btn-primary">+ Cart</button>
-                            <div class="flex gap-2 items-center justify-center">
-                                @if (Auth::user()->customer->wishlist->where('menu_id', $menu->id)->isNotEmpty())
-                                    <a href="/wishlist/remove/{{ $menu->id }}" class="flex items-center justify-center gap-2 p-2 rounded hover:bg-primary hover:bg-opacity-10">
-                                        <i class="fas fa-heart text-primary"></i>
-                                        <p class="text-primary text-subname font-normal">Remove from Wishlist</p>
-                                    </a>
-                                @else
-                                    <a href="/wishlist/add/{{ $menu->id }}" class="flex items-center justify-center gap-2 p-2 rounded hover:bg-primary hover:bg-opacity-10">
-                                        <i class="far fa-heart text-primary"></i>
-                                        <p class="text-primary text-subname font-normal">Add to Wishlist</p>
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            @endif
         </div>
+        @if (Auth::user() && Auth::user()->role == 'customer')
+            <div class="w-[25%] rounded shadow bg-white border border-primary border-opacity-20 h-fit">
+                <form action="{{ url('/cart/add') }}" method="POST" class="flex flex-col gap-5 p-5">
+                    {{ @csrf_field() }}
+                    <input type="hidden" id="available_date" name="available_date" value="{{ $menu->available_date }}">
+                    <input type="hidden" id="menu_id" name="menu_id" value="{{ $menu->id }}"/>
+                    <input type="hidden" id="quantity-submit" name="quantity" value="1">
+                    <div class="text-secondary text-heading font-semibold">Add to Cart</div>
+                    <div class="flex gap-2 items-center">
+                        <img class="w-10 h-10 object-cover rounded" src="{{ Storage::url("profile/menu/".$menu->profile_menu )}}"/>
+                        <div class="text-secondary text-subheading font-medium">
+                            {{$menu->name}}
+                        </div>
+                    </div>
+                    <hr class="line">
+                    <div class="flex items-center justify-center w-full">
+                        <label class="flex items-center justify-center bg-primary text-white rounded-l w-10 h-10" id="decrease">-</label>
+                        <input class="w-10 h-10 text-center outline-none border-y border-primary" type="number" id="quantity" value="1" disabled>
+                        <label class="flex items-center justify-center bg-primary text-white rounded-r w-10 h-10" id="increase">+</label>
+                    </div>
+                    <div class="flex justify-between items-center w-full">
+                        <label class="text-secondary text-subheading font-medium">Subtotal</label>
+                        <span id="total_price" value="{{ $menu->price }}" class="text-secondary text-subheading font-medium">Rp{{ number_format($menu->price/1000, 3, '.', ',') }},00</span>
+                    </div>
+                    <div class="flex flex-col gap-2 items-center justify-center">
+                        <button type="submit" class="w-full btn-primary">+ Cart</button>
+                        <div class="flex gap-2 items-center justify-center">
+                            @if (Auth::user()->customer->wishlist->where('menu_id', $menu->id)->isNotEmpty())
+                                <a href="/wishlist/remove/{{ $menu->id }}" class="flex items-center justify-center gap-2 p-2 rounded hover:bg-primary hover:bg-opacity-10">
+                                    <i class="fas fa-heart text-primary"></i>
+                                    <p class="text-primary text-subname font-normal">Remove from Wishlist</p>
+                                </a>
+                            @else
+                                <a href="/wishlist/add/{{ $menu->id }}" class="flex items-center justify-center gap-2 p-2 rounded hover:bg-primary hover:bg-opacity-10">
+                                    <i class="far fa-heart text-primary"></i>
+                                    <p class="text-primary text-subname font-normal">Add to Wishlist</p>
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                </form>
+            </div>
+        @endif
     </div>
     <script>
         var quantityInput = document.getElementById('quantity');
