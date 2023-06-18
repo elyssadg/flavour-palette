@@ -19,10 +19,6 @@ class OrderHeader extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function seller(){
-        return $this->belongsTo(Seller::class);
-    }
-
     public function order_detail(){
         return $this->hasMany(OrderDetail::class, 'order_id');
     }

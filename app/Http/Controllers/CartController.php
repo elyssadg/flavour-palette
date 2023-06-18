@@ -75,4 +75,14 @@ class CartController extends Controller
         $carts = $this->getCart();
         return view('pages.cart', compact('carts'));
     }
+
+    // Check Out
+    public function checkout(Request $request){
+        $carts = $this->getCart();
+        $totalPrice = $request->total_price;
+        return view('pages.checkout', compact('carts', 'totalPrice'));
+    }
+
+    // Buy
+
 }

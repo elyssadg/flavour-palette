@@ -136,16 +136,6 @@
     <div class="w-[85%] mx-auto my-20 flex flex-col gap-5">
         <!-- Utility Bar -->
         <div class="flex flex-col gap-5">
-            @if (Auth::user() && Auth::user()->role == 'customer')
-                <div class="bg-primary flex flex-col gap-3 px-5 py-3 rounded">
-                    <label class="text-white font-medium">Location</label>
-                    <div class="flex items-center gap-2">
-                        <img src="{{ Storage::url("assets/icon/location.png") }}" style="width: 20px">
-                        <input class="w-full outline-none border-0 bg-transparent text-white text-heading font-medium placeholder:text-white placeholder:font-normal" type="text" name="address" id="address" placeholder="Input Your Address">
-                    </div>
-                </div>
-            @endif
-
             <div class="flex flex-col items-center w-full gap-5">
                 <div class="flex items-center w-full gap-5">
                     <div class="flex justify-between items-center gap-5">

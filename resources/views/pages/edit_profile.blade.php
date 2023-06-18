@@ -10,7 +10,7 @@
         <div class="p-10 bg-white rounded shadow w-1/2 h-auto border border-primary border-opacity-20">
             <form action="/profile/edit" id="account-form" class="w-full flex flex-col gap-5" method="POST" enctype="multipart/form-data">
                 {{ csrf_field() }}
-                <div class="font-semibold text-heading text-primary">Account Detail</div>
+                <div class="title">Account Detail</div>
                 <div>
                     <div class="flex flex-col items-center w-full gap-5">
                         <label for="profile_picture" id="profile-lbl" class="rounded-full border border-dgray bg-white color-white cursor-pointer w-28 h-28 text-center flex items-center justify-center text-subname text-dgray font-medium">Edit Picture</label>
@@ -72,7 +72,7 @@
         <div class="p-10 bg-white rounded shadow w-1/2 h-auto border border-primary border-opacity-20">
             <form action="/profile/edit/password" id="password-form" class="flex flex-col gap-5 w-full" method="POST" enctype="multipart/form-data">
                 {{ csrf_field() }}
-                <div class="font-semibold text-heading text-primary">Change Password</div>
+                <div class="title">Change Password</div>
                 <div>
                     <label for="old_password" class="form-label">Old Password</label>
                     <div id="old_password_div" class="relative flex items-center w-full h-fit">
@@ -111,7 +111,7 @@
             <div class="p-10 bg-white rounded shadow w-1/2 h-auto border border-primary border-opacity-20">
                 <form action="/profile/edit/catering" id="catering-form" class="flex flex-col gap-5 w-full" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
-                    <div class="font-semibold text-heading text-primary">Catering Detail</div>
+                    <div class="title">Catering Detail</div>
                     <div>
                         <label for="catering_name" class="form-label">Catering Name</label>
                         <input type="text" class="input-form" id="catering_name" name="catering_name" placeholder="Catering Name" value="{{ Auth::user()->seller->name }}">

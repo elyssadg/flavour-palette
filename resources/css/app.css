@@ -30,4 +30,8 @@
     .line {
         @apply w-full h-1 bg-primary bg-opacity-20
     }
+
+    .title {
+        @apply text-primary text-title font-semibold
+    }
 }

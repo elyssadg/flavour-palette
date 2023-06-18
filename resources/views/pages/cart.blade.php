@@ -7,7 +7,7 @@
 @section('content')
     <div class="w-[85%] mx-auto py-20 flex justify-between">
         <div class="w-[60%] flex flex-col gap-5">
-            <div class="w-full text-title text-primary font-semibold">Cart</div>
+            <div class="w-full title">Cart</div>
             <hr class="line">
             <?php $total_price = 0 ?>
             @foreach ($carts as $index => $c)
@@ -84,32 +84,32 @@
             @endforeach
         </div>
 
-    <div class="w-[35%] h-fit flex items-start justify-center bg-white border border-primary border-opacity-20">
-        <form action="/checkout" method="POST" class="w-full p-10">
-            {{ csrf_field() }}
-            <div class="flex flex-col gap-5 w-full" >
-                <div class="flex justify-between">
-                    <label for="total_price" class="text-heading text-secondary font-medium">Total Price</label>
-                    <label for="total_price" id="total_price" class="text-heading text-secondary font-semibold">Rp{{ number_format($total_price/1000, 3, '.', ',') }},00</label>
-                    <input type="hidden" name="total_price" value="{{ $total_price }}">
+        <div class="w-[35%] h-fit flex items-start justify-center bg-white border border-primary border-opacity-20">
+            <form action="/checkout" class="w-full p-10">
+                <div class="flex flex-col gap-5 w-full" >
+                    <div class="flex justify-between">
+                        <label for="total_price" class="text-heading text-secondary font-medium">Total Price</label>
+                        <label for="total_price" id="total_price" class="text-heading text-secondary font-semibold">Rp{{ number_format($total_price/1000, 3, '.', ',') }},00</label>
+                        <input type="hidden" name="total_price" value="{{ $total_price }}">
+                    </div>
+                    <button type="submit" class="w-full btn-primary">Checkout</button>
                 </div>
-                <button type="submit" class="w-full btn-primary" name="action">Checkout</button>
-            </div>
-        </form>
-    </div>
+            </form>
+        </div>
 
-    <script>
-        var totalPriceElement = document.getElementById('total_price');
-        function updateTotalPrice() {
-            let totalPrice = 0;
-            const total_menu = {{ $carts->count() }};
-            for (let i = 0; i < total_menu; i++) {
-                totalPrice += document.getElementById('menu-price-' + i).value * document.getElementById('quantity-' + i).value;
+        <script>
+            var totalPriceElement = document.getElementById('total_price');
+            function updateTotalPrice() {
+                let totalPrice = 0;
+                const total_menu = {{ $carts->count() }};
+                for (let i = 0; i < total_menu; i++) {
+                    totalPrice += document.getElementById('menu-price-' + i).value * document.getElementById('quantity-' + i).value;
+                }
+                totalPriceElement.innerHTML = `${totalPrice.toLocaleString("id-ID", {
+                                                style: "currency",
+                                                currency: "IDR"
+                                            })}`;
             }
-            totalPriceElement.innerHTML = `${totalPrice.toLocaleString("id-ID", {
-                                            style: "currency",
-                                            currency: "IDR"
-                                        })}`;
-        }
-    </script>
+        </script>
+    </div>
 @endsection

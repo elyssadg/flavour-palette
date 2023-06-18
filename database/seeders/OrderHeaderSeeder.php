@@ -15,12 +15,6 @@ class OrderHeaderSeeder extends Seeder
      */
     public function run($customerId, $sellerId): void
     {
-        OrderHeader::create([
-            'id' => Str::uuid(),
-            'customer_id' => $customerId,
-            'seller_id' => $sellerId[0],
-            'order_date' => Carbon::now(),
-            'total_price' => 1000000
-        ]);
+        
     }
 }

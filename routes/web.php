@@ -6,6 +6,7 @@ use App\Http\Controllers\SellerController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderHeaderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,5 +51,9 @@ Route::group(['middleware' => 'auth'], function(){
         Route::get('/cart', [CartController::class, 'cart']);
         Route::post('/cart/add', [CartController::class, 'addCart']);
         Route::post('/cart/edit', [CartController::class, 'updateQuantity']);
+        Route::get('/checkout', [CartController::class, 'checkout']);
+        Route::post('/order/create', [OrderHeaderController::class, 'createOrder']);
+        Route::get('/order', [OrderHeaderController::class, 'orders']);
+        Route::get('/order/{id}', [OrderDetailController::class, 'orderDetail']);
     });
 });

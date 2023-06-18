@@ -37,7 +37,7 @@
                 <a href="{{ url('/') }}" class="nav-menu {{ request()->route()->getName() == 'home' ? 'text-secondary border-secondary' : 'text-primary' }}">Home</a>
                 <a href="{{ url('/menu') }}" class="nav-menu {{ request()->route()->getName() == 'menu' ? 'text-secondary border-secondary' : 'text-primary' }}">Menu</a>
                 @if (!Auth::user() || Auth::user() && Auth::user()->role == 'customer')
-                    <a href="#about-us" onclick="scrollToAboutUs()" class="nav-menu">About Us</a>
+                    <a href="{{ url('/#about-us') }}" onclick="scrollToAboutUs()" class="nav-menu">About Us</a>
                 @endif
             </div>
             @if (!Auth::user())
@@ -153,11 +153,11 @@
                 <div class="flex flex-col justify-between flex-grow ml-5 gap-16">
                     <div class="flex flex-col gap-3">
                         @if (Auth::user()->role == 'customer')
-                            <a class="text-primary text-subheading font-medium hover:text-secondary" href="{{url('/orderhistory')}}">Order History</a>
-                            <a class="text-primary text-subheading font-medium hover:text-secondary" href="{{url('/wishlist')}}">Wishlist</a>
+                            <a class="text-primary text-subheading font-medium hover:text-secondary" href="{{ url('/order') }}">Order History</a>
+                            <a class="text-primary text-subheading font-medium hover:text-secondary" href="{{ url('/wishlist') }}">Wishlist</a>
                         @else
-                            <a class="text-primary text-subheading font-medium hover:text-secondary" href="{{url('/manageorder')}}">Manage Order</a>
-                            <a class="text-primary text-subheading font-medium hover:text-secondary" href="{{url('/')}}">Withdraw Pocket</a>
+                            <a class="text-primary text-subheading font-medium hover:text-secondary" href="{{ url('/order/manage') }}">Manage Order</a>
+                            <a class="text-primary text-subheading font-medium hover:text-secondary" href="{{ url('/') }}">Withdraw Pocket</a>
                         @endif
                     </div>
                     <div class="flex flex-col gap-3">

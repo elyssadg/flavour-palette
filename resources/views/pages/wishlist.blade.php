@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="w-[85%] mx-auto py-20 flex flex-col gap-5">
-        <div class="text-title font-bold text-primary">My Wishlist</div>
+        <div class="title">My Wishlist</div>
         <!-- Menu -->
         <div class="flex flex-wrap gap-y-10 gap-x-[5%] justify-between p-1">
             @foreach ($wishlist as $index => $m)
