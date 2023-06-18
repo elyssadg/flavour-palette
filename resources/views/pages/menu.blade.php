@@ -204,7 +204,7 @@
                     @foreach ($availableMenus as $index => $m)
                         <div id="menu-{{ $m->id }}" class="relative w-80 h-fit rounded bg-white shadow-md overflow-hidden">
                             <a href="/menu/{{ $m->id }}">
-                                <img class="" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
+                                <img class="w-full h-56 object-cover" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
                             </a>
                             <div class="flex flex-col gap-5 p-5">
                                 <div class="flex justify-between h-auto">
@@ -364,7 +364,7 @@
                     <div class="flex gap-5 p-1">
                         @foreach ($archivedMenus as $index => $m)
                             <div id="menu-{{ $m->id }}" class="relative w-80 h-fit rounded bg-white shadow-md overflow-hidden"> 
-                                <img class="" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
+                                <img class="w-full h-56 object-cover" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
                                 <div class="flex flex-col gap-5 p-5">
                                     <div class="flex justify-between h-auto">
                                         <div class="max-w-[65%] h-20 text-secondary font-semibold text-heading">
@@ -511,7 +511,7 @@
                 @foreach ($menus as $index => $m)
                     <div id="menu-{{ $m->id }}" class="relative w-[30%] h-fit rounded bg-white shadow-md overflow-hidden cursor-pointer">
                         <a href="/menu/{{ $m->id }}?date_btn={{ $m->available_date }}">
-                            <img class="" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
+                            <img class="w-full h-56 object-cover" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
                         </a>
                         <div class="flex flex-col gap-5 p-5">
                             <div class="flex justify-between h-auto">

@@ -77,7 +77,7 @@
                     @if (!Auth::user() || Auth::user() && Auth::user()->role == 'customer')
                         Popular Menu For The Week
                     @else
-                        Top Menus For You
+                        Top Menus From You
                     @endif
                 </h1>
                 <a href="{{ url('/menu') }}" class="mt-auto text-dgray font-light text-name hover:underline">See More</a>
@@ -88,7 +88,7 @@
                     @foreach ($menus as $index => $m)
                         <div id="menu-{{ $m->id }}" class="relative w-80 h-fit rounded bg-white shadow-md overflow-hidden cursor-pointer">
                             <a href="/menu/{{ $m->id }}">
-                                <img class="" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
+                                <img class="w-full h-56 object-cover" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
                             </a>
                             <div class="flex flex-col gap-5 p-5">
                                 <div class="flex justify-between h-auto">
