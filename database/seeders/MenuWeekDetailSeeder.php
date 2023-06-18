@@ -46,8 +46,8 @@ class MenuWeekDetailSeeder extends Seeder
                         'available_date' => $dateStarts[$counter]
                     ]);
                 }
+                $counter++;
             }
-            $counter++;
         }
 
     }
