@@ -50,10 +50,10 @@ class MenuSeeder extends Seeder
             [
                 'name' => 'Indonesian rice cooked with coconut milk',
                 'description' => 'Rice cooked in coconut milk and seasoned with spices, served with side dishes and accompaniments',
-                'profile_menu' => 'Nasi_Uduk'
+                'profile_menu' => 'Nasi_Uduk.jpg'
             ],
             [
-                'name' => 'fried Noodles',
+                'name' => 'Fried Noodles',
                 'description' => 'Fried noodles with spices and added with vegetables and meat or shrimp',
                 'profile_menu' => 'fried_noodles.jpg'
             ],
@@ -116,6 +116,11 @@ class MenuSeeder extends Seeder
                 'name' => 'Beef Rib Soup',
                 'description' => 'Soup made from beef ribs cooked until tender, served with rice',
                 'profile_menu' => 'Beef_Rib_Soup.jpg'
+            ],
+            [
+                'name' => 'Chicken Katsu',
+                'description' => 'Fried Chicken in Japanese Style, with rice and sauces',
+                'profile_menu' => 'katsu.jpeg'
             ],
         ];
 
