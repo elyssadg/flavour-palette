@@ -28,22 +28,24 @@ class MenuWeekDetailSeeder extends Seeder
         $randomNumbers = [];
 
         $counter=0;
-        for ($k = 0; $k < 20; $k++) {
-            $randomNumber = rand(0, 19);
-            while (in_array($randomNumber, $randomNumbers)) {
-                $randomNumber = rand(0, 19);
-            }
 
-            $randomNumbers[$k] = $randomNumber;
-        }
-
-        for ($j = 0; $j < 14; $j++){
+        for ($j = 0; $j < 2; $j++){
             $tracker = 0;
-            for($l = 0; $l < $faker->numberBetween(1,4); $l++){
-                MenuWeekDetail::create([
-                    'menu_id' => $menuId[$randomNumbers[$tracker++]],
-                    'available_date' => $dateStarts[$counter]
-                ]);
+            for ($k = 0; $k < 20; $k++) {
+                $randomNumber = rand(0, 19);
+                while (in_array($randomNumber, $randomNumbers)) {
+                    $randomNumber = rand(0, 19);
+                }
+
+                $randomNumbers[$k] = $randomNumber;
+            }
+            for ($j = 0; $j < 7; $j++){
+                for($l = 0; $l < $faker->numberBetween(1,4); $l++){
+                    MenuWeekDetail::create([
+                        'menu_id' => $menuId[$randomNumbers[$tracker++]],
+                        'available_date' => $dateStarts[$counter]
+                    ]);
+                }
             }
             $counter++;
         }
