@@ -194,15 +194,17 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-wrap gap-10 justify-center p-1">
+
+        <!-- Menu -->
+        <div class="flex flex-wrap gap-y-10 gap-x-[5%] justify-center p-1">
             @foreach ($menus as $index => $m)
-                <div id="menu-{{ $m->id }}" class="relative w-80 h-fit rounded bg-white shadow-md overflow-hidden cursor-pointer">
+                <div id="menu-{{ $m->id }}" class="relative w-[30%] h-fit rounded bg-white shadow-md overflow-hidden cursor-pointer">
                     <div>
                         <img class="" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
                     </div>
                     <div class="flex flex-col gap-5 p-5">
                         <div class="flex justify-between h-auto">
-                            <div class="max-w-[65%] h-20 text-secondary font-semibold text-heading">
+                            <div class="max-w-[65%] h-14 text-secondary font-semibold text-heading">
                                 {{ $m->name }}
                             </div>
                             <div>
@@ -235,7 +237,7 @@
                             </div>
                         </div>
 
-                        <div class="flex flex-col h-12">
+                        <div class="flex flex-col h-10">
                             <div id="" class="text-secondary text-opacity-50 text-subname font-normal">
                                 By {{ $m->seller->name }}
                             </div>

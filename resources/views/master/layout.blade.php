@@ -37,7 +37,7 @@
                 <a href="{{ url('/') }}" class="nav-menu {{ request()->route()->getName() == 'home' ? 'text-secondary border-secondary' : 'text-primary' }}">Home</a>
                 <a href="{{ url('/menu') }}" class="nav-menu {{ request()->route()->getName() == 'menu' ? 'text-secondary border-secondary' : 'text-primary' }}">Menu</a>
                 @if (!Auth::user() || Auth::user() && Auth::user()->role == 'customer')
-                    <a href="#about-us" class="nav-menu {{ request()->route()->getName() == 'about' ? 'text-secondary border-secondary' : 'text-primary' }}">About Us</a>
+                    <a href="#about-us" onclick="scrollToAboutUs()" class="nav-menu">About Us</a>
                 @endif
             </div>
             @if (!Auth::user())
@@ -229,7 +229,7 @@
 
     <script>
         function scrollToAboutUs() {
-            var targetOffset = $('#about-us').offset().top - 150;
+            var targetOffset = $('#about-us').offset().top - 150; // Adjust the offset as needed
             $('html, body').animate({
                 scrollTop: targetOffset
             }, 1000); 
