@@ -67,7 +67,7 @@
 
                 <div class="w-full flex gap-5 py-5 border-y-4 border-primary border-opacity-20">
                     <div class="w-16 h-16 rounded-full overflow-hidden">
-                        <img class="object-cover w-full h-full" src="{{Storage::url("profile/menu/".$menu->profile_menu)}}" alt="Profile Image">
+                        <img class="object-cover w-full h-full" src="{{Storage::url("profile/user/".$menu->seller->user->profile_picture)}}" alt="Profile Image">
                     </div>
                     <div class="flex flex-col gap-2">
                         <div class="text-primary font-semibold text-xl" id="">

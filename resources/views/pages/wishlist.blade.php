@@ -12,7 +12,7 @@
             @foreach ($wishlist as $index => $m)
                 <div id="menu-{{ $m->id }}" class="relative w-[30%] h-fit rounded bg-white shadow-md overflow-hidden cursor-pointer">
                     <div>
-                        <img class="" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
+                        <img class="w-full h-56 object-cover" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
                     </div>
                     <div class="flex flex-col gap-5 p-5">
                         <div class="flex justify-between h-auto">

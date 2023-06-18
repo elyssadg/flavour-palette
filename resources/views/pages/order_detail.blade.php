@@ -84,11 +84,11 @@
                                     <button class="btn-primary" type="submit" id="update_status" name="update_status" value="{{ $od->arrival_date }}">Update Status</button>
                                 </div>
                             @endif
-                        @elseif ($od->status != "Done")
+                        @elseif ($od->status == "In Delivery")
                             <div class="ml-auto flex justify-end">
                                 <button class="btn-primary" type="submit" id="finish" name="finish" value="{{ $od->arrival_date }}">Finish</button>
                             </div>
-                        @else
+                        @elseif ($od->status == "Done")
                             <div class="ml-auto flex justify-end">
                                 <button class="btn-primary" id="review" name="review"">Review</button>
                             </div>
