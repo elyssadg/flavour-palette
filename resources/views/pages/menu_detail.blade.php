@@ -113,7 +113,7 @@
                                     </div>
                                     <div class="flex gap-3 items-center">
                                         <div class="w-10 h-10 rounded-full overflow-hidden">
-                                            <img src="{{Storage::url("profile/menu/".$menu->profile_menu)}}" class="object-cover w-full h-full" alt="Profile Image">
+                                            <img src="{{Storage::url("profile/user/".$rw->customer->user->profile_picture)}}" class="object-cover w-full h-full" alt="Profile Image">
                                         </div>
                                         <div>{{ $rw->customer->username }}</div>
                                     </div>

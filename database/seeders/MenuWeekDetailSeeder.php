@@ -32,7 +32,7 @@ class MenuWeekDetailSeeder extends Seeder
         for ($j = 0; $j < 2; $j++){
             $tracker = 0;
             for ($k = 0; $k < 21; $k++) {
-                $randomNumber = rand(0, 20);
+            $randomNumber = rand(0, 20);
                 while (in_array($randomNumber, $randomNumbers)) {
                     $randomNumber = rand(0, 20);
                 }
