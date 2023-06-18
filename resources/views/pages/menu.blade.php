@@ -277,6 +277,13 @@
                                             <i class="far fa-heart fa-2x text-primary"></i>
                                         </a>
                                     @endif
+                                    <form action="cart/add" method="POST">
+                                        {{ @csrf_field() }}
+                                        <input type="hidden" id="available_date" name="available_date" value="{{ $m->available_date }}">
+                                        <input type="hidden" id="menu_id" name="menu_id" value="{{ $m->id }}"/>
+                                        <input type="hidden" name="quantity" value="1">
+                                        <button class="bg-primary rounded-full h-12 w-12 flex items-center justify-center text-white font-medium text-title hover:shadow-primary hover:shadow" type="submit">+</button>
+                                    </form>
                                 </div>
                             </div>
                         @endif

@@ -14,11 +14,12 @@ class CartController extends Controller
     // Add to Cart
     public function addCart(Request $request){
         $date = DateTime::createFromFormat("l, d F Y", $request->available_date);
+        if (!$date) $date = DateTime::createFromFormat("Y-m-d", $request->available_date);
         $date = $date->format("Y-m-d");
         $user = Auth::user();
         $menu = Menu::find($request->menu_id);
         $item = Cart::where('customer_id', $user->customer->id)->where('menu_id',$menu->id)->where('available_date', $date)->first();
-        if($item->count() == 0){
+        if($item == null){
             $quantity = $request->quantity;
             Cart::insert([
                 'id' => Str::uuid(),
