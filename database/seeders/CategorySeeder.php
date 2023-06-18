@@ -41,11 +41,11 @@ class CategorySeeder extends Seeder
         ]);
         Category::create([
             'id' => $categoryId[5],
-            'name' => 'Nut Free'
+            'name' => 'Nut'
         ]);
         Category::create([
             'id' => $categoryId[6],
-            'name' => 'Seafood Free'
+            'name' => 'Seafood'
         ]);
         Category::create([
             'id' => $categoryId[7],

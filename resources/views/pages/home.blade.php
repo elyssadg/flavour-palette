@@ -194,7 +194,7 @@
                                                     @foreach ($categories as $c)
                                                         <div class="flex">
                                                             <input type="checkbox" name="categories[]" id="cb-{{ $m->id }}-{{ $c->id }}" value="{{ $c->id }}" class="peer hidden" {{ $m->menu_category->where('category_id', $c->id)->isNotEmpty() ? 'checked' : '' }}>
-                                                            <label id="lbl-{{ $m->id }}-{{ $c->id }}" for="cb-{{ $m->id }}-{{ $c->id }}" 
+                                                            <label id="lbl-{{ $m->id }}-{{ $c->id }}" for="cb-{{ $m->id }}-{{ $c->id }}"
                                                                 class="cursor-pointer rounded border border-secondary py-1 px-3 transition-colors duration-200 peer-checked:bg-secondary peer-checked:text-white peer-checked:border-secondary">
                                                                 {{ $c->name }}
                                                             </label>
@@ -214,7 +214,7 @@
                                             </div>
                                             
                                             <div id="menu-update-error-{{ $m->id }}" class="text-center text-red-500 text-name font-semibold mt-5"></div>
-            
+
                                             <button type="submit" class="btn-primary">Save</button>
                                         </form>
                                     </div>
@@ -263,7 +263,7 @@
                 </div>
             </div>
         </div>
-        
+
         @if (!Auth::user() || Auth::user() && Auth::user()->role == 'customer')
             <!-- About Us -->
             <div class="w-full flex justify-between">
@@ -277,8 +277,8 @@
                         </div>
                     </div >
                     <div class="flex justify-between items-center">
-                        <img src="{{ Storage::url('assets/home/delivery-photo.png') }}" alt="delivery image" class="w-[40%] h-full">
-                        <img src="{{ Storage::url('assets/home/katsu-photo.png') }}" alt="katsu image" class="w-[60%] h-full">
+                        <img src="{{ Storage::url('assets/home/delivery-photo.png') }}" alt="delivery image" class="w-[40%] h-full object-cover">
+                        <img src="{{ Storage::url('assets/home/katsu-photo.png') }}" alt="katsu image" class="w-[40%] h-full object-cover">
                     </div>
                 </div>
             </div>
