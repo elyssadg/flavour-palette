@@ -133,7 +133,7 @@ class MenuSeeder extends Seeder
         foreach ($menus as $menu) {
             Menu::create([
                 'id' => $menuId[$counter++],
-                'seller_id' => $sellerId[0],
+                'seller_id' => $sellerId[rand(0, 14)],
                 'name' => $menu['name'],
                 'profile_menu' => $menu['profile_menu'],
                 'price' => mt_rand(15, 50) * 1000,
