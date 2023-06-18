@@ -34,9 +34,11 @@
                         @endforeach
                         <div class="text-dgray font-normal text-subname text-justify">Rating ({{$countReview}} ratings)</div>
                         <div class="text-primary font-semibold text-heading">
-                            <span>
-                                {{ number_format((float)$totalRatingSum, 2, '.', '') }}
-                            </span>
+                            @if ($totalRatingSum > 0)
+                                <span>{{ number_format((float)$menu->seller->store_rating, 2, '.', '') }}</span>
+                            @else
+                                <span>No Rating</span>
+                            @endif
                         </div>
                     </div>
                     <div class="flex flex-col gap-2">
@@ -73,47 +75,56 @@
                         </div>
                         <div class="text-primary font-semibold text-name text-justify flex gap-2 items-center" >
                             <i class="far fa-star"></i>
-                            <span>{{ number_format((float)$totalRatingSum, 2, '.', '') }}</span>
-                            <span class="font-normal">average rating</span>
+                            @if ($menu->seller->store_rating > 0)
+                                <span>{{ number_format((float)$menu->seller->store_rating, 2, '.', '') }}</span>
+                                <span class="font-normal">average rating</span>
+                            @else
+                                <span class="font-normal">No Rating</span>
+                            @endif
                         </div>
                     </div>
                 </div>
 
                 <div class="flex gap-10 w-full" id="">
-                    <div class="flex gap-5 items-start w-full" >
-                        <i class="mt-6 fa fa-star fa-lg" style="color: orange;"></i>
-                        <div class="flex flex-col gap-2 items-start">
-                            <div class="font-semibold text-5xl text-secondary">{{ number_format((float)$totalRatingSum, 2, '.', '') }}<sub class="font-light text-sm">/5.0</sub></div>
-                            <div class="text-dgray font-medium text-base text-justify">{{$countReview}} rating</span>
-                        </div>
-                    </div>
-                    <div class="flex flex-col gap-5 ml-10 w-full">
-                        <div class="font-normal text-secondary text-subname">Showing {{ $countReview }} out of 10 reviews</div>
-                        @foreach ($menu->review as $rw)
-                            <div class="flex flex-col gap-3 items-start border-b-2 border-primary border-opacity-20 pb-5 w-full">
-                                <div class="flex gap-3 items-center">
-                                    <i class="fa fa-star fa-lg" style="color: orange;"></i>
-                                    <div>
-                                        <span class="font-semibold text-heading text-secondary">
-                                            {{ $rw->rating }}
-                                        </span>
-                                        <sub class="font-light text-sm text-dgray">/ 5</sub>
-                                    </div>
-                                </div>
-                                <div class="flex gap-3 items-center">
-                                    <div class="w-10 h-10 rounded-full overflow-hidden">
-                                        <img src="{{Storage::url("profile/menu/".$menu->profile_menu)}}" class="object-cover w-full h-full" alt="Profile Image">
-                                    </div>
-                                    <div>{{ $rw->customer->username }}</div>
-                                </div>
-                                <div>
-                                    {{$rw->review_message}}
-                                </div>
+                    <div class="flex gap-5 items-start w-full">
+                        @if ($totalRatingSum > 0)
+                            <div class="flex flex-col gap-2 items-start">
+                                <i class="mt-6 fa fa-star fa-lg" style="color: orange;"></i>
+                                <div class="font-semibold text-5xl text-secondary">{{ number_format((float)$totalRatingSum, 2, '.', '') }}<sub class="font-light text-sm">/5.0</sub></div>
+                                <div class="text-dgray font-medium text-base text-justify">{{$countReview}} rating</span>
                             </div>
-                        @endforeach
+                        @else
+                            <div class="font-semibold text-name text-secondary">No Reviews Yet</div>
+                        @endif
                     </div>
+                    @if ($totalRatingSum > 0)
+                        <div class="flex flex-col gap-5 ml-10 w-full">
+                            <div class="font-normal text-secondary text-subname">Showing {{ $countReview }} out of 10 reviews</div>
+                            @foreach ($menu->review as $rw)
+                                <div class="flex flex-col gap-3 items-start border-b-2 border-primary border-opacity-20 pb-5 w-full">
+                                    <div class="flex gap-3 items-center">
+                                        <i class="fa fa-star fa-lg" style="color: orange;"></i>
+                                        <div>
+                                            <span class="font-semibold text-heading text-secondary">
+                                                {{ $rw->rating }}
+                                            </span>
+                                            <sub class="font-light text-sm text-dgray">/ 5</sub>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-3 items-center">
+                                        <div class="w-10 h-10 rounded-full overflow-hidden">
+                                            <img src="{{Storage::url("profile/menu/".$menu->profile_menu)}}" class="object-cover w-full h-full" alt="Profile Image">
+                                        </div>
+                                        <div>{{ $rw->customer->username }}</div>
+                                    </div>
+                                    <div>
+                                        {{$rw->review_message}}
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
-            </div>
             </div>
             @if (Auth::user() && Auth::user()->role == 'customer')
                 <div class="w-[25%] rounded shadow bg-white border border-primary border-opacity-20 h-fit">

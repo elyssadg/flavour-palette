@@ -9,6 +9,11 @@ class MenuWeekDetail extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'menu_id',
+        'available_date'
+    ];
+
     public $incrementing = false;
     protected $keyType = 'string';
     protected $casts = [

@@ -16,10 +16,14 @@ class OrderDetail extends Model
     ];
 
     public function order_header(){
-        return $this->belongsTo(OrderHeader::class);
+        return $this->belongsTo(OrderHeader::class, 'order_id');
     }
 
     public function menu(){
         return $this->belongsTo(Menu::class);
+    }
+
+    public function seller(){
+        return $this->belongsTo(Seller::class);
     }
 }

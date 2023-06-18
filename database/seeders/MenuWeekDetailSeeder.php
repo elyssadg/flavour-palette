@@ -13,7 +13,7 @@ class MenuWeekDetailSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run($menuWeekHeaderId, $menuId)
+    public function run($menuId)
     {
         $faker = Faker::create();
 
@@ -42,7 +42,6 @@ class MenuWeekDetailSeeder extends Seeder
             for ($j = 0; $j < 7; $j++){
                 for($l = 0; $l < $faker->numberBetween(3, 6); $l++){
                     MenuWeekDetail::create([
-                        'week_id' => $menuWeekHeaderId[$i],
                         'menu_id' => $menuId[$randomNumbers[$tracker++]],
                         'available_date' => $dateStarts[$counter]
                     ]);

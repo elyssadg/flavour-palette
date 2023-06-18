@@ -5,145 +5,126 @@
 @endsection
 
 @section('content')
-<div class="flex flex-col items-center justify-center w-full p-12">
-    <div class=" bg-white rounded shadow w-2/4 h-1/2 p-6 border-2 border-lgray">
-        <form action="/orderdetail/{{ $order_header->id }}" class="flex flex-col w-full gap-7 p-12">
-
-            <div class="font-semibold text-xl">
+    <div class="flex flex-col items-center justify-center w-[85%] h-fit mx-auto py-20">
+        <form action="/order/{{ $orderHeader->id }}" class="flex flex-col w-full gap-5">
+            <div class="title">
                 Order Detail
             </div>
             <div class="flex flex-col gap-5">
                 <div class="flex flex-col gap-2">
-                    <div class="text-secondary text-base">Order ID</div>
-                    <div class="text-black text-lg">{{$order_header->id}}</div>
+                    <div class="text-primary text-name font-normal">Order ID</div>
+                    <div class="text-secondary text-subheading font-medium">{{$orderHeader->id}}</div>
                 </div>
                 <div class="flex flex-col gap-2">
-                    <div class="text-secondary text-base">Order Date</div>
-                    <div class="text-black text-lg">{{ date('d/m/Y', strtotime($order_header->order_date)) }}{{ date('H:i:s', strtotime($order_header->order_date)) }}</div>
+                    <div class="text-primary text-name font-normal">Order Date</div>
+                    <div class="text-secondary text-subheading font-medium">{{ date('d/m/Y', strtotime($orderHeader->order_date)) }} {{ date('H:i:s', strtotime($orderHeader->order_date)) }}</div>
                 </div>
-                @foreach ($order_header->order_detail as $od)
-                    @if ($loop->first)
-                        <div class="flex flex-col gap-2">
-                            <div class="text-secondary text-base">Status</div>
-                            <div class="w-[90px] py-1 px-4 border-[3px] border-secondary text-secondary font-medium rounded flex items-center justify-center">
-                                {{$od->status}}
-                            </div>
+                @if (Auth::user()->role == "seller")
+                    <div class="flex flex-col gap-2">
+                        <div class="text-primary text-name font-normal">Buyer</div>
+                        <div class="text-secondary text-subheading font-medium">
+                            {{ $orderHeader->customer->username }}
                         </div>
-                        @if (Auth::user()->role == "seller")
-                        <div class="flex flex-col gap-2">
-                            <div class="text-secondary text-base">Buyer</div>
-                            <div class="text-black text-lg">
-                                {{$od->order_header->user->username}}
-                            </div>
-                        </div>
-                        @endif
-                        @break
-                    @endif
-                @endforeach
-
-
-
+                    </div>
+                @endif
             </div>
 
-            @foreach ($order_header->order_detail as $od)
-                <div class="flex gap-5 items-start">
-                    <div class="w-[35%] h-52 rounded mb-auto">
-                        <img class="w-full h-full object-cover" src="{{ Storage::url("profile/menu/".$od->menu->profile_menu) }}"/>
+            <hr class="line">
+
+            <div class="title">
+                Items
+            </div>
+            @foreach ($orderHeader->order_detail as $od)
+                <div class="flex justify-between gap-5 items-start">
+                    <div class="w-[30%] rounded mb-auto">
+                        <img class="w-full h-auto object-cover rounded shadow" src="{{ Storage::url("profile/menu/".$od->menu->profile_menu) }}"/>
                     </div>
-                    <div class="flex flex-col gap-3 w-[60%]">
+                    <div class="flex flex-col gap-3 w-[65%]">
                         <div class="flex flex-col gap-2">
-                            <div class="text-secondary text-base">Menu Name</div>
-                            <div class="text-black text-xl font-medium">{{$od->menu->name}}</div>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <div class="text-secondary text-base">Quantity</div>
-                            <div class="text-black text-xl font-medium">{{$od->quantity}}</div>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <div class="text-secondary text-base">MDelivery Date</div>
-                            <div class="text-black text-xl font-medium">{{$od->arrival_date}}</div>
+                            <div class="text-primary text-name font-normal">Menu Name</div>
+                            <div class="text-secondary text-subheading font-medium">{{ $od->menu->name }}</div>
                         </div>
 
+                        @if (Auth::user()->role == 'customer')
+                            <div class="flex flex-col gap-2">
+                                <div class="text-primary text-name font-normal">Seller</div>
+                                <div class="text-secondary text-subheading font-medium">{{ $od->menu->seller->name }}</div>
+                            </div>
+                        @endif
 
+                        <div class="flex flex-col gap-2">
+                            <div class="text-primary text-name font-normal">Quantity</div>
+                            <div class="text-secondary text-subheading font-medium">{{ $od->quantity }}</div>
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <div class="text-primary text-name font-normal">Subtotal</div>
+                            <div class="text-secondary text-subheading font-medium">Rp{{ number_format(($od->quantity * $od->menu->price)/1000, 3, '.', ',') }},00</div>
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <div class="text-primary text-name font-normal">Delivery Date</div>
+                            <div class="text-secondary text-subheading font-medium">{{ date('d/m/Y', strtotime($od->arrival_date)) }}</div>
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <div class="text-primary text-name font-normal">Status</div>
+                            <div class="w-fit py-1 px-4 border border-secondary text-secondary font-medium rounded flex items-center justify-center">
+                                {{ $od->status }}
+                            </div>
+                        </div>
 
                         @if (Auth::user()->role == "seller")
-                            <div class="flex flex-col gap-2">
-                                <div class="text-secondary text-base">Status</div>
-                                <div class="w-fit py-1 px-4 border-[3px] border-secondary text-secondary font-medium rounded flex items-center justify-center">
-                                    {{$od->status}}
+                            @if ($od->status == "Waiting" && $od->seller->name == Auth::user()->seller->name)
+                                <div class="mt-5 ml-auto flex justify-center">
+                                    <button class="btn-primary" type="submit" id="accept" name="accept" value="{{ $od->arrival_date }}">Accept Order</button>
                                 </div>
-                            </div>
-                            @if ($od->status == "In Progress")
-                            <div class="mt-5 ml-auto flex justify-center">
-                                <button class="flex w-full justify-center rounded bg-secondary px-10 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:scale-105 hover:shadow-md transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary" type="submit" id="updatestatus" name="updatestatus" value="{{$od->arrival_date}}">Update Status</button>
-                            </div>
+                            @elseif ($od->status == "In Progress" && $od->seller->name == Auth::user()->seller->name)
+                                <div class="mt-5 ml-auto flex justify-center">
+                                    <button class="btn-primary" type="submit" id="update_status" name="update_status" value="{{ $od->arrival_date }}">Update Status</button>
+                                </div>
                             @endif
+                        @elseif ($od->status != "Done")
+                            <div class="ml-auto flex justify-end">
+                                <button class="btn-primary" type="submit" id="finish" name="finish" value="{{ $od->arrival_date }}">Finish</button>
+                            </div>
                         @else
-                            <div class="mt-5 ml-auto flex justify-center">
-                                <button class="flex w-full justify-center rounded bg-secondary px-10 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:scale-105 hover:shadow-md transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary" type="" id="review" name="review" value="">Review</button>
+                            <div class="ml-auto flex justify-end">
+                                <button class="btn-primary" id="review" name="review"">Review</button>
                             </div>
                         @endif
                     </div>
                 </div>
                 @if (!$loop->last)
-                    <hr class="bg-dgray bg-opacity-80 h-[2px]">
+                    <hr class="line">
                 @endif
             @endforeach
 
-            <div class="flex flex-col gap-2">
-                <div class="font-semibold text-xl">
-                    Delivery
-                </div>
+            <hr class="line">
 
-                <div class="font-semibold text-lg text-secondary">
-                    Free
-                </div>
+            <div class="title">
+                Delivery
+            </div>
+            <div class="text-secondary text-subheading font-medium">
+                Catering Courier (Included)
             </div>
 
-            <div class="font-semibold text-xl">
+            <hr class="line">
+
+            <div class="title">
                 Payment
             </div>
-
             <div class="flex flex-col gap-5">
                 <div class="flex flex-col gap-2">
-                    <div class="text-secondary text-base">Subtotal</div>
-                    <div class="text-black text-lg">Rp{{ number_format($order_header->total_price/1000, 3, '.', ',') }},00</div>
+                    <div class="text-primary text-name font-normal">Total</div>
+                    <div class="text-secondary text-subheading font-medium">Rp{{ number_format($orderHeader->total_price/1000, 3, '.', ',') }},00</div>
                 </div>
                 <div class="flex flex-col gap-2">
-                    <div class="text-secondary text-base">Delivery Fee</div>
-                    <div class="text-black text-lg">Rp0,00</div>
-                </div>
-                <div class="flex flex-col gap-2">
-                    <div class="text-secondary text-base">Total</div>
-                    <div class="text-black text-lg">Rp{{ number_format($order_header->total_price/1000, 3, '.', ',') }},00</div>
-                </div>
-                <div class="flex flex-col gap-2">
-                    <div class="text-secondary text-base">Payment Method</div>
-                    <div class="text-black text-lg">COD</div>
+                    <div class="text-primary text-name font-normal">Payment Method</div>
+                    <div class="text-secondary text-subheading font-medium">COD</div>
                 </div>
             </div>
-
-            Payment Method
-            Cod
-
-            @if (Auth::user()->role == "seller")
-            @foreach ($order_header->order_detail as $od)
-            @if ($loop->first)
-                @if($od->status == "Waiting")
-                <div class="mt-5 flex justify-center w-full">
-                    <button class="flex w-full justify-center rounded bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:scale-105 hover:shadow-md transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"type="submit" id="accept" name="accept" value="accept">Accept Order</button>
-                </div>
-                @endif
-                @break
-            @endif
-            @endforeach
-            @endif
-
         </form>
     </div>
-</div>
-
-
-
 @endsection
 

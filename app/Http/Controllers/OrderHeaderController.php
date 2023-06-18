@@ -22,6 +22,15 @@ class OrderHeaderController extends Controller
         return view('pages.order_history', compact('orderHeader'));
     }
 
+    // Manage Order View
+    public function manageOrders(Request $request) {
+        $user = Auth::user();
+        $orders = OrderDetail::where('order_details.seller_id', $user->seller->id)
+                                    ->get();
+
+        return view('pages.manage_order', compact('orders'));
+    }
+
     // Pay
     public function createOrder(Request $request) {
         $orderHeaderId = Str::uuid();
@@ -39,6 +48,7 @@ class OrderHeaderController extends Controller
             OrderDetail::insert([
                 'order_id' => $orderHeaderId,
                 'menu_id' => $cart->menu->id,
+                'seller_id' => $cart->menu->seller_id,
                 'arrival_date'=> $cart->available_date,
                 'quantity' => $cart->quantity,
                 'status' => 'Waiting'

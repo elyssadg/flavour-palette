@@ -7,6 +7,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderHeaderController;
+use App\Http\Controllers\OrderDetailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,16 +33,12 @@ Route::group(['middleware' => 'guest'], function(){
 });
 
 Route::group(['middleware' => 'auth'], function(){
-    Route::get('/logout', [UserController::class, 'logout']);
-    Route::post('/profile/status', [UserController::class, 'updateStatus']);
-    Route::get('/profile/edit', [UserController::class, 'editProfile']);
-    Route::post('/profile/edit/account', [UserController::class, 'editAccount']);
-    Route::post('/profile/edit/password', [UserController::class, 'editPassword']);
-
     Route::group(['middleware' => 'seller'], function(){
         Route::post('/profile/edit/catering', [SellerController::class, 'editCatering']);
-        Route::get('/menu/{id}/delete', [MenuController::class, 'deleteMenu']);
+        Route::post('/menu/add', [MenuController::class, 'addMenu']);
         Route::post('/menu/edit', [MenuController::class, 'editMenu']);
+        Route::get('/menu/{id}/delete', [MenuController::class, 'deleteMenu']);
+        Route::get('/order/manage', [OrderHeaderController::class, 'manageOrders']);
     });
 
     Route::group(['middleware' => 'customer'], function(){
@@ -54,6 +51,12 @@ Route::group(['middleware' => 'auth'], function(){
         Route::get('/checkout', [CartController::class, 'checkout']);
         Route::post('/order/create', [OrderHeaderController::class, 'createOrder']);
         Route::get('/order', [OrderHeaderController::class, 'orders']);
-        Route::get('/order/{id}', [OrderDetailController::class, 'orderDetail']);
     });
+
+    Route::get('/logout', [UserController::class, 'logout']);
+    Route::post('/profile/status', [UserController::class, 'updateStatus']);
+    Route::get('/profile/edit', [UserController::class, 'editProfile']);
+    Route::post('/profile/edit/account', [UserController::class, 'editAccount']);
+    Route::post('/profile/edit/password', [UserController::class, 'editPassword']);
+    Route::get('/order/{id}', [OrderDetailController::class, 'orderDetail']);
 });

@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreign('order_id')->references('id')->on('order_headers')->onDelete('cascade')->onUpdate('cascade');
             $table->string('menu_id');
             $table->foreign('menu_id')->references('id')->on('menus')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('seller_id');
+            $table->foreign('seller_id')->references('id')->on('sellers')->onDelete('cascade')->onUpdate('cascade');
             $table->date('arrival_date');
             $table->integer('quantity');
             $table->string('status');

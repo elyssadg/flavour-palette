@@ -45,12 +45,8 @@ class DatabaseSeeder extends Seeder
         $orderHeaderSeeder = new OrderHeaderSeeder();
         $orderHeaderSeeder->run($customerId, $cateringId);
 
-        // MenuWeekHeader
-        $menuWeekHeaderSeeder = new MenuWeekHeaderSeeder();
-        $menuWeekHeaderId = $menuWeekHeaderSeeder->run();
-
         // MenuWeekDetail
         $menuWeekDetailSeeder = new MenuWeekDetailSeeder();
-        $menuWeekDetailSeeder->run($menuWeekHeaderId, $menuId);
+        $menuWeekDetailSeeder->run($menuId);
     }
 }

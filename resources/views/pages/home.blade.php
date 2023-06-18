@@ -40,21 +40,28 @@
                         <div class="w-20 h-20 bg-primary rounded-full"></div>
                         <div>
                             <h2 class="text-orange font-semibold text-subheading text-left">New Order</h2>
-                            <h1 class="text-secondary font-semibold text-title text-left">{{ Auth::user()->seller->order_header->where('status', 'waiting')->count() }}</h1>
+                            <h1 class="text-secondary font-semibold text-title text-left">{{ Auth::user()->seller->order_detail->where('status', '=', 'Waiting')->count() }}</h1>
                         </div>
                     </div>
                     <div class="flex gap-5">
                         <div class="w-20 h-20 bg-primary rounded-full"></div>
                         <div>
                             <h2 class="text-orange font-semibold text-subheading text-left">In Progress</h2>
-                            <h1 class="text-secondary font-semibold text-title text-left">{{ Auth::user()->seller->order_header->where('status', 'in progress')->count() }}</h1>
+                            <h1 class="text-secondary font-semibold text-title text-left">{{ Auth::user()->seller->order_detail->where('status', '=', 'In Progress')->count() }}</h1>
+                        </div>
+                    </div>
+                    <div class="flex gap-5">
+                        <div class="w-20 h-20 bg-primary rounded-full"></div>
+                        <div>
+                            <h2 class="text-orange font-semibold text-subheading text-left">In Delivery</h2>
+                            <h1 class="text-secondary font-semibold text-title text-left">{{ Auth::user()->seller->order_detail->where('status', '=', 'In Delivery')->count() }}</h1>
                         </div>
                     </div>
                     <div class="flex gap-5">
                         <div class="w-20 h-20 bg-primary rounded-full"></div>
                         <div>
                             <h2 class="text-orange font-semibold text-subheading text-left">Done</h2>
-                            <h1 class="text-secondary font-semibold text-title text-left">{{ Auth::user()->seller->order_header->where('status', 'done')->count() }}</h1>
+                            <h1 class="text-secondary font-semibold text-title text-left">{{ Auth::user()->seller->order_detail->where('status', '=', 'Done')->count() }}</h1>
                         </div>
                     </div>
                 </div>
@@ -80,12 +87,9 @@
                 <div class="flex gap-5 p-1">
                     @foreach ($menus as $index => $m)
                         <div id="menu-{{ $m->id }}" class="relative w-80 h-fit rounded bg-white shadow-md overflow-hidden cursor-pointer">
-                            <div>
-                                <a href="menu/{{ $m->id }}">
-
-                                </a>
+                            <a href="/menu/{{ $m->id }}">
                                 <img class="" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
-                            </div>
+                            </a>
                             <div class="flex flex-col gap-5 p-5">
                                 <div class="flex justify-between h-auto">
                                     <div class="max-w-[65%] h-20 text-secondary font-semibold text-heading">
@@ -96,7 +100,7 @@
                                         <?php
                                             if ($m->average_rating < 1) {
                                                 ?>
-                                                <span class="text-secondary font-normal text-name">No Rating</span>
+                                                <span class="text-secondary font-normal text-subname">No Rating</span>
                                                 <?php
                                             } else {
                                                 ?>
@@ -203,6 +207,12 @@
                                                     @endforeach
                                                 </div>
                                             </div>
+
+                                            <div>
+                                                <label for="menu_date" class="form-label">Available Date</label>
+                                                <input type="date" class="input-form" name="menu_date" placeholder="Menu Available Date" value="{{ $m->available_date }}">
+                                            </div>
+                                            
                                             <div id="menu-update-error-{{ $m->id }}" class="text-center text-red-500 text-name font-semibold mt-5"></div>
             
                                             <button type="submit" class="btn-primary">Save</button>
@@ -249,12 +259,6 @@
                                 @endif
                             </div>
                         </div>
-                        <script>
-                            document.getElementById('menu-{{ $m->id }}').addEventListener('click', function(event) {
-                                window.location.href = 'menu/{{ $m->id }}';
-                                event.stopPropagation();
-                            });
-                        </script>
                     @endforeach
                 </div>
             </div>
@@ -292,6 +296,76 @@
                             </div>
                         @endforeach
                     </div>
+                </div>
+            </div>
+        @else 
+            <div class="flex flex-col items-start justify-center gap-5 w-full bg-white rounded shadow p-10 border border-primary border-opacity-50">
+                <div class="title text-secondary">
+                    Orders
+                </div>
+                <div class="flex justify-between w-full">
+                    <div class="w-1/2 text-heading font-semibold text-primary ">
+                        Order ID
+                    </div>
+                    <div class="w-2/12 text-heading font-semibold text-primary">
+                        Status
+                    </div>
+                    <div class="w-2/12 text-heading font-semibold text-primary">
+                        Date
+                    </div>
+                    <div class="w-2/12 text-heading font-semibold text-primary">
+                        Buyer
+                    </div>
+                    <div class="w-2/12 text-heading font-semibold text-primary">
+                        Total
+                    </div>
+                </div>
+                <div class="flex flex-col gap-5 w-full">
+                    @foreach ($orders as $o)
+                        <a href="/order/{{ $o->order_id }}" class="flex justify-between w-full">
+                            <div class="w-1/2">
+                                <div class="text-name text-secondary font-medium">
+                                    {{ $o->order_id }}
+                                </div>
+                                <div>
+                                    <div class="text-base text-dgray">Preview</div>
+                                    <div class="flex w-full items-center gap-2">
+                                        <div class="w-16 h-16 rounded">
+                                            <img class="w-full h-full object-cover" src="{{ Storage::url("profile/menu/".$o->menu->profile_menu) }}"/>
+                                        </div>
+                                        <div class="text-base text-black font-medium">
+                                            {{ $o->menu->name }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="w-2/12 flex items-center">
+                                <div class="w-max py-1 px-2 border border-secondary text-secondary font-medium rounded flex items-center justify-center">
+                                    {{ $o->status }}
+                                </div>
+                            </div>
+
+                            <div class="font-medium w-2/12 flex items-center">
+                                {{ date('d/m/Y', strtotime($o->arrival_date)) }}
+                            </div>
+
+                            <div class="flex gap-3 items-center w-2/12">
+                                <div class="w-9 h-9 rounded-full overflow-hidden">
+                                    <img class="object-cover w-full h-full" src="{{ Storage::url("profile/user/".$o->order_header->customer->user->profile_picture) }}" alt="Profile Image">
+                                </div>
+                                <div class="font-medium">
+                                    {{ $o->order_header->customer->username }}
+                                </div>
+                            </div>
+                            <div class="font-semibold w-2/12 flex items-center">
+                                Rp{{ number_format($o->order_header->total_price/1000, 3, '.', ',') }},00
+                            </div>
+                        </a>
+                        @if (!$loop->last)
+                            <hr class="line">
+                        @endif
+                    @endforeach
                 </div>
             </div>
         @endif

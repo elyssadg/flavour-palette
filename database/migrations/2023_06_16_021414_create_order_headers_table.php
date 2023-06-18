@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('customer_id');
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade')->onUpdate('cascade');
             $table->string('destination');
-            $table->string('status')->default('waiting');
+            $table->string('status')->default('Waiting');
             $table->timestamp('order_date');
             $table->integer('total_price');
             $table->timestamps();

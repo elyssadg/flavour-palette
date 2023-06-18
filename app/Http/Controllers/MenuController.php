@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\File;
+use Illuminate\Support\Str;
 use App\Models\Menu;
+use App\Models\MenuWeekDetail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 
@@ -38,7 +40,8 @@ class MenuController extends Controller
         if (Auth::user() && Auth::user()->role == "seller") {
             $menus = $this->getTopMenusSeller($date);
             $categories = CategoryController::getAllCategory();
-            return view('pages.home', compact('menus', 'categories'));
+            $orders = OrderDetailController::getOrderBySeller(Auth::user()->seller->id);
+            return view('pages.home', compact('menus', 'categories', 'orders'));
         } else {
             $menus = Menu::where('status', 'available')
                     ->leftJoin('menu_reviews', 'menus.id', '=', 'menu_reviews.menu_id')
@@ -56,29 +59,55 @@ class MenuController extends Controller
 
     // Menu View
     public function menu(Request $request) {
-        if (Auth::user() && Auth::user()->role == "seller") {
-            
-        } else {
-            // Menu Category
-            $categories = CategoryController::getAllCategory();
+        // Menu Category
+        $categories = CategoryController::getAllCategory();
 
-            // Set Up Date Filter
-            $selectedDate = $request->input('date_btn');
-            $currentDate = Carbon::now()->addDays(7)->format('Y-m-d');
-            $startDate = Carbon::createFromFormat('Y-m-d', $currentDate)->startOfWeek();
-            if ($selectedDate == null) $selectedDate = $startDate;
+        // Set Up Date Filter
+        $selectedDate = $request->input('date_btn');
+        $currentDate = Carbon::now()->addDays(7)->format('Y-m-d');
+        $startDate = Carbon::createFromFormat('Y-m-d', $currentDate)->startOfWeek();
+        if ($selectedDate == null) $selectedDate = $startDate;
+
+        $dates = [];
+        $tempDate = $startDate->copy();
+        while ($tempDate <= $startDate->copy()->endOfWeek()) {
+            $dates[] = $tempDate->copy();
+            $tempDate->addDay();
+        }
+
+        if (Auth::user() && Auth::user()->role == "seller") {
+            $changeDate = $request->input('start_date');
+            if ($changeDate) {
+                $startDate = Carbon::createFromFormat('Y-m-d', $changeDate)->startOfWeek();
+                $selectedDate = $startDate;
+
+                $dates = [];
+                $tempDate = $startDate->copy();
+                while ($tempDate <= $startDate->copy()->endOfWeek()) {
+                    $dates[] = $tempDate->copy();
+                    $tempDate->addDay();
+                }
+            }
+
+            $availableMenus = Menu::join('menu_week_details', 'menu_week_details.menu_id', '=', 'menus.id')
+                                        ->where('status', 'available')
+                                        ->where('available_date', $selectedDate)
+                                        ->where('seller_id', Auth::user()->seller->id)
+                                        ->select('menus.*', 'available_date')
+                                        ->get();
+
+            $archivedMenus = Menu::where('status', 'archived')
+                                    ->where('seller_id', Auth::user()->seller->id)
+                                    ->select('menus.*')
+                                    ->get();
+
+            return view('pages.menu', compact('availableMenus', 'archivedMenus', 'dates', 'selectedDate', 'categories'));
+        } else {
             $menus = Menu::join('menu_week_details', 'menu_week_details.menu_id', '=', 'menus.id')
                         ->where('status', 'available')
                         ->where('available_date', $selectedDate)
                         ->select('menus.*', 'available_date')
                         ->paginate(10);
-            
-            $dates = [];
-            $tempDate = $startDate->copy();
-            while ($tempDate <= $startDate->copy()->endOfWeek()) {
-                $dates[] = $tempDate->copy();
-                $tempDate->addDay();
-            }
 
             return view('pages.menu', compact('menus', 'dates', 'selectedDate', 'categories'));
         }
@@ -137,7 +166,58 @@ class MenuController extends Controller
         return Menu::find($id);
     }
 
-    // Delete Menu
+    // Add Menu
+    public function addMenu(Request $request) {
+        $validation = [
+            'menu_image' => 'required|mimetypes:image/jpeg,image/jpg,image/png',
+            'menu_name' => 'required|min:5',
+            'menu_price' => 'required|numeric|min:0',
+            'menu_description' => 'required|min:10',
+            'categories' => 'required',
+            'menu_date' => 'required|after:today'
+        ];
+
+        $validator = Validator::make($request->all(), $validation);
+        if($validator->fails()){
+            $error_message = $validator->errors()->first();
+            return response()->json([
+                'error' => true,
+                'error_message' => $error_message
+            ]);
+        }
+
+        $menu = new Menu();
+        $menu->id = Str::uuid();
+        $menu->seller_id = Auth::user()->seller->id;
+        $menu->name = $request->menu_name;
+        $menu->price = $request->menu_price;
+        $menu->status = 'available';
+        $menu->description = $request->menu_description;
+        if($request->menu_image != null){
+            $file = $request->file('menu_image');
+            $imageName = time().'.'.$file->getClientOriginalExtension();
+            Storage::putFileAs('public/profile/menu', $file, $imageName);
+            $menu->profile_menu = $imageName;
+        }
+        $menu->save();
+
+        $categories = $request->input('categories');
+        foreach ($categories as $c) {
+            MenuCategoryController::addCategory($menu->id, $c);
+        }
+
+        MenuWeekDetail::create([
+            'menu_id' => $menu->id,
+            'available_date' => $request->menu_date
+        ]);
+
+        return response()->json([
+            'error' => false,
+            'redirect' => '/'
+        ]);
+    }
+
+    // Archive Menu
     public function deleteMenu($id) {
         $menu = Menu::find($id);
         $menu->status = 'archived';
@@ -158,7 +238,8 @@ class MenuController extends Controller
             'menu_image' => 'mimetypes:image/jpeg,image/jpg,image/png',
             'menu_name' => 'required|min:5',
             'menu_price' => 'required|numeric|min:0',
-            'menu_description' => 'required|min:10'
+            'menu_description' => 'required|min:10',
+            'menu_date' => 'required|after:today'
         ];
 
         $validator = Validator::make($request->all(), $validation);

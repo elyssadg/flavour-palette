@@ -12,13 +12,11 @@
         @foreach ($orderHeader as $oh)
             <a href="/order/{{ $oh->id }}" class="flex flex-col items-center justify-center w-full gap-5">
                 <div class=" bg-white rounded shadow w-full h-1/2 p-5 border border-primary border-opacity-50 flex flex-col gap-4">
-                    <div class="flex gap-3 items-center">
+                    <div class="flex gap-3 items-center text-primary">
                         <div class="text-primary font-normal text-subname">
                             {{ date('j F Y', strtotime($oh->order_date)) }}
                         </div>
-                        <div class="text-primary font-normal text-subname border border-primary py-[0.05rem] px-3 rounded">
-                            {{ ucFirst($oh->first()->status) }}
-                        </div>
+                        |
                         <div class="text-primary font-normal text-subname">
                             {{ $oh->id }}
                         </div>
