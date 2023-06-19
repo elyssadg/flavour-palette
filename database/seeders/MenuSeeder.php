@@ -33,7 +33,7 @@ class MenuSeeder extends Seeder
                 'profile_menu' => 'Soto_Betawi.png'
             ],
             [
-                'name' => 'mixed vegetables with the peanut sauce',
+                'name' => 'Gado Gado',
                 'description' => 'Mixed vegetables such as long beans, bean sprouts and lontong are smothered in peanut sauce',
                 'profile_menu' => 'Gado_gado.jpg'
             ],
@@ -48,7 +48,7 @@ class MenuSeeder extends Seeder
                 'profile_menu' => 'Ayam_Gulai.jpg'
             ],
             [
-                'name' => 'Indonesian rice cooked with coconut milk',
+                'name' => 'Uduk Rice',
                 'description' => 'Rice cooked in coconut milk and seasoned with spices, served with side dishes and accompaniments',
                 'profile_menu' => 'Nasi_Uduk.jpg'
             ],
@@ -110,7 +110,7 @@ class MenuSeeder extends Seeder
             [
                 'name' => 'Penyet Chicken',
                 'description' => 'Pieces of chicken fried until crispy, then pounded into a flat, served with chili sauce and fresh vegetables',
-                'profile_menu' => 'Penyet_Chicken'
+                'profile_menu' => 'Penyet_Chicken.jpg'
             ],
             [
                 'name' => 'Beef Rib Soup',
@@ -133,7 +133,7 @@ class MenuSeeder extends Seeder
         foreach ($menus as $menu) {
             Menu::create([
                 'id' => $menuId[$counter++],
-                'seller_id' => $sellerId[rand(0, 14)],
+                'seller_id' => $sellerId[rand(0,0)],
                 'name' => $menu['name'],
                 'profile_menu' => $menu['profile_menu'],
                 'price' => mt_rand(15, 50) * 1000,

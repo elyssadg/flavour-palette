@@ -57,6 +57,6 @@ class OrderHeaderController extends Controller
 
         Cart::where('customer_id', Auth::user()->customer->id)->delete();
 
-        return redirect('/');
+        return redirect('/order');
     }
 }
