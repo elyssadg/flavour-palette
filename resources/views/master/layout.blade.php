@@ -157,7 +157,7 @@
                             <a class="text-primary text-subheading font-medium hover:text-secondary" href="{{ url('/wishlist') }}">Wishlist</a>
                         @else
                             <a class="text-primary text-subheading font-medium hover:text-secondary" href="{{ url('/order/manage') }}">Manage Order</a>
-                            <a class="text-primary text-subheading font-medium hover:text-secondary" href="{{ url('/') }}">Withdraw Pocket</a>
+                            <a id="withdraw-pocket" class="text-primary text-subheading font-medium hover:text-secondary">Withdraw Pocket</a>
                         @endif
                     </div>
                     <div class="flex flex-col gap-3">
@@ -186,18 +186,39 @@
             <div class="mt-2 flex justify-center w-full">
                 <button id="cancel-btn" class="w-full btn-primary">Cancel</button>
             </div>
-            <div></div>
         </div>
+
+        @if (Auth::user()->role == 'seller')
+            <div id="withdraw-modal" class="hidden flex-col items-center fixed w-3/12 z-50 p-10 bg-white shadow-md rounded" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                <form action="/withdraw" method="POST" class="flex flex-col gap-2">
+                    {{ @csrf_field() }}
+                    <div class="w-full text-heading text-primary font-semibold">Your Pocket</div>
+                    <div class="w-full flex items-center justify-between">
+                        <p class="text-subheading text-secondary font-medium">Total</p>
+                        @if (Auth::user()->seller->pocket > 0)
+                            <p class="text-subheading text-secondary font-medium">Rp{{ number_format(Auth::user()->seller->pocket, 2, ',', '.') }}</p>
+                        @else
+                            <p class="text-subheading text-secondary font-medium">No Balance</p>
+                        @endif
+                    </div>
+                    @if (Auth::user()->seller->pocket > 0)
+                        <button type="submit" class="btn-primary w-full">Withdraw</button>
+                    @endif
+                </form>
+            </div>
+        @endif
     @endif
 
     @if (Auth::user())
         <script>
-            let profileBtn = document.getElementById('profile-btn');
             let layer = document.getElementById('layer');
+            let profileBtn = document.getElementById('profile-btn');
             let profileModal = document.getElementById('profile-modal');
             let inactivateLabel = document.getElementById('inactivate-account');
             let inactivateAcc = document.getElementById('inactivate-modal');
             let cancelBtn = document.getElementById('cancel-btn');
+            let withdrawLabel = document.getElementById('withdraw-pocket');
+            let withdrawModal = document.getElementById('withdraw-modal');
 
             inactivateLabel.addEventListener('click', function(){
                 profileModal.style.display = 'none';
@@ -218,12 +239,20 @@
                 layer.style.display = 'none';
                 profileModal.style.display = 'none';
                 inactivateAcc.style.display = 'none';
+                withdrawModal.style.display = 'none';
             });
 
             cancelBtn.addEventListener('click', function() {
                 profileModal.style.display = 'block';
                 inactivateAcc.style.display = 'none';
             });
+
+            @if (Auth::user()->role == 'seller')
+                withdrawLabel.addEventListener('click', function() {
+                    profileModal.style.display = 'none';
+                    withdrawModal.style.display = 'block';
+                });
+            @endif
         </script>
     @endif
 

@@ -9,6 +9,14 @@ class OrderDetail extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'menu_id',
+        'order_id',
+        'status'
+    ];
+
+    protected $primaryKey = ['menu_id', 'order_id', 'arrival_date'];
+
     public $incrementing = false;
     protected $keyType = 'string';
     protected $casts = [

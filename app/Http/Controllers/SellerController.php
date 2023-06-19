@@ -78,4 +78,13 @@ class SellerController extends Controller
     public static function getTopSeller() {
         return Seller::take(14)->get();
     }
+
+    // Withdraw Pocket
+    public function withdrawPocket() {
+        $seller = Seller::find(Auth::user()->seller->id);
+        $seller->pocket = 0;
+        $seller->save();
+        
+        return redirect()->back();
+    }
 }

@@ -207,11 +207,6 @@
                                                     @endforeach
                                                 </div>
                                             </div>
-
-                                            <div>
-                                                <label for="menu_date" class="form-label">Available Date</label>
-                                                <input type="date" class="input-form" name="menu_date" placeholder="Menu Available Date" value="{{ $m->available_date }}">
-                                            </div>
                                             
                                             <div id="menu-update-error-{{ $m->id }}" class="text-center text-red-500 text-name font-semibold mt-5"></div>
 

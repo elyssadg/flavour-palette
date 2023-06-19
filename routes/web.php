@@ -33,12 +33,15 @@ Route::group(['middleware' => 'guest'], function(){
 });
 
 Route::group(['middleware' => 'auth'], function(){
+    Route::post('/order/status', [OrderDetailController::class, 'changeStatus']);
+
     Route::group(['middleware' => 'seller'], function(){
         Route::post('/profile/edit/catering', [SellerController::class, 'editCatering']);
         Route::post('/menu/add', [MenuController::class, 'addMenu']);
         Route::post('/menu/edit', [MenuController::class, 'editMenu']);
         Route::get('/menu/{id}/delete', [MenuController::class, 'deleteMenu']);
         Route::get('/order/manage', [OrderHeaderController::class, 'manageOrders']);
+        Route::post('/withdraw', [SellerController::class, 'withdrawPocket']);
     });
 
     Route::group(['middleware' => 'customer'], function(){
