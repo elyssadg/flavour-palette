@@ -80,9 +80,10 @@ class CartController extends Controller
     public function checkout(Request $request){
         $carts = $this->getCart();
         $totalPrice = $request->total_price;
+
+        if ($request->total_price == 0) return redirect('/cart');
+
         return view('pages.checkout', compact('carts', 'totalPrice'));
     }
-
-    // Buy
 
 }

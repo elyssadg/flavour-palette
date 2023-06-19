@@ -36,24 +36,28 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/order/status', [OrderDetailController::class, 'changeStatus']);
 
     Route::group(['middleware' => 'seller'], function(){
+        Route::group(['middleware' => 'active'], function(){
+            Route::get('/order/manage', [OrderHeaderController::class, 'manageOrders']);
+            Route::post('/menu/add', [MenuController::class, 'addMenu']);
+            Route::post('/menu/edit', [MenuController::class, 'editMenu']);
+            Route::get('/menu/{id}/delete', [MenuController::class, 'deleteMenu']);
+        });
         Route::post('/profile/edit/catering', [SellerController::class, 'editCatering']);
-        Route::post('/menu/add', [MenuController::class, 'addMenu']);
-        Route::post('/menu/edit', [MenuController::class, 'editMenu']);
-        Route::get('/menu/{id}/delete', [MenuController::class, 'deleteMenu']);
-        Route::get('/order/manage', [OrderHeaderController::class, 'manageOrders']);
         Route::post('/withdraw', [SellerController::class, 'withdrawPocket']);
     });
 
     Route::group(['middleware' => 'customer'], function(){
+        Route::group(['middleware' => 'active'], function(){
+            Route::get('/cart', [CartController::class, 'cart']);
+            Route::post('/cart/add', [CartController::class, 'addCart']);
+            Route::post('/cart/edit', [CartController::class, 'updateQuantity']);
+            Route::get('/checkout', [CartController::class, 'checkout']);
+            Route::post('/order/create', [OrderHeaderController::class, 'createOrder']);
+            Route::get('/order', [OrderHeaderController::class, 'orders']);
+        });
         Route::get('/wishlist', [WishlistController::class, 'wishlist']);
         Route::get('/wishlist/add/{id}', [WishlistController::class, 'addWishlist']);
         Route::get('/wishlist/remove/{id}', [WishlistController::class, 'removeWishlist']);
-        Route::get('/cart', [CartController::class, 'cart']);
-        Route::post('/cart/add', [CartController::class, 'addCart']);
-        Route::post('/cart/edit', [CartController::class, 'updateQuantity']);
-        Route::get('/checkout', [CartController::class, 'checkout']);
-        Route::post('/order/create', [OrderHeaderController::class, 'createOrder']);
-        Route::get('/order', [OrderHeaderController::class, 'orders']);
     });
 
     Route::get('/logout', [UserController::class, 'logout']);
