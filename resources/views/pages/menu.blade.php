@@ -214,14 +214,25 @@
                                     <div>
                                         <i class="fa fa-star" style="color: #E39D36"></i>
                                         <?php
-                                            if ($m->average_rating < 1) {
+                                            $total_rating = 0;
+                                            $total_review = 0;
+                                        ?>
+                                        @foreach ($m->review as $rw)
+                                            <?php
+                                                $total_rating = $total_rating + $rw->rating;
+                                                $total_review++;
+                                            ?>
+                                        @endforeach
+                                        <?php
+                                            if ($total_review < 1) {
                                                 ?>
                                                 <span class="text-secondary font-normal text-subname">No Rating</span>
                                                 <?php
                                             } else {
+                                                $total_rating = $total_rating / $total_review;
                                                 ?>
-                                                <span class="text-secondary font-semibold text-name">
-                                                    {{ number_format($m->average_rating, 2, '.', '') }}
+                                                <span class="font-semibold">
+                                                    {{ number_format((float)$total_rating, 2, '.', '') }}
                                                 </span>
                                                 <sub>/5</sub>
                                                 <?php
@@ -373,14 +384,25 @@
                                         <div>
                                             <i class="fa fa-star" style="color: #E39D36"></i>
                                             <?php
-                                                if ($m->average_rating < 1) {
+                                                $total_rating = 0;
+                                                $total_review = 0;
+                                            ?>
+                                            @foreach ($m->review as $rw)
+                                                <?php
+                                                    $total_rating = $total_rating + $rw->rating;
+                                                    $total_review++;
+                                                ?>
+                                            @endforeach
+                                            <?php
+                                                if ($total_review < 1) {
                                                     ?>
                                                     <span class="text-secondary font-normal text-subname">No Rating</span>
                                                     <?php
                                                 } else {
+                                                    $total_rating = $total_rating / $total_review;
                                                     ?>
-                                                    <span class="text-secondary font-semibold text-name">
-                                                        {{ number_format($m->average_rating, 2, '.', '') }}
+                                                    <span class="font-semibold">
+                                                        {{ number_format((float)$total_rating, 2, '.', '') }}
                                                     </span>
                                                     <sub>/5</sub>
                                                     <?php
