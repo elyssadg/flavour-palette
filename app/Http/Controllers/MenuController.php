@@ -33,6 +33,79 @@ class MenuController extends Controller
         return $menus;
     }
 
+    // Sorting
+    private function sorting($sortBy, $menus, $selectedDate){
+        if($sortBy){
+            switch($sortBy){
+                case "highest_rating":{
+                    $menus = Menu::select('menus.id','menus.profile_menu','menus.seller_id','menus.name','menus.status','menus.price','menus.ordered','menus.description', DB::raw('(SUM(menu_reviews.rating) / COUNT(menu_reviews.rating))'))
+                                    ->join('menu_week_details', 'menus.id', '=', 'menu_week_details.menu_id')
+                                    ->join('menu_reviews', 'menus.id', '=', 'menu_reviews.menu_id')
+                                    ->where('status', 'available')
+                                    ->where('available_date', $selectedDate)
+                                    ->groupBy('menus.id','menus.profile_menu','menus.seller_id','menus.name','menus.status','menus.price','menus.ordered','menus.description')
+                                    ->orderByRaw('(SUM(menu_reviews.rating) / COUNT(menu_reviews.rating)) DESC')
+                                    ->get();
+                    break;
+                }
+                case "lowest_price":{
+                    $menus = Menu::select('menus.id','menus.profile_menu','menus.seller_id','menus.name','menus.status','menus.price','menus.ordered','menus.description')
+                                    ->join('menu_week_details', 'menus.id', '=', 'menu_week_details.menu_id')
+                                    ->where('status', 'available')
+                                    ->where('available_date', $selectedDate)
+                                    ->groupBy('menus.id','menus.profile_menu','menus.seller_id','menus.name','menus.status','menus.price','menus.ordered','menus.description')
+                                    ->orderByRaw('menus.price ASC')
+                                    ->get();
+                    break;
+                }
+                case "highest_price":{
+                    $menus = Menu::select('menus.id','menus.profile_menu','menus.seller_id','menus.name','menus.status','menus.price','menus.ordered','menus.description')
+                                    ->join('menu_week_details', 'menus.id', '=', 'menu_week_details.menu_id')
+                                    ->where('status', 'available')
+                                    ->where('available_date', $selectedDate)
+                                    ->groupBy('menus.id','menus.profile_menu','menus.seller_id','menus.name','menus.status','menus.price','menus.ordered','menus.description')
+                                    ->orderByRaw('menus.price DESC')
+                                    ->get();
+                    break;
+                }
+            }
+        }
+
+        return $menus;
+    }
+
+    private function filter($request, $menus, $categories, $selectedDate){
+        if($request->input('filter')){
+            $lowestPrice = 0;
+            if($request->lowest_price) $lowestPrice = $request->lowest_price;
+
+            $highestPrice = 50000000000;
+            if($request->highest_price) $highestPrice = $request->highest_price;
+
+            $rating = 0;
+            if($request->rating) $rating = $request->rating;
+
+            $selectedCategories = $request->categories;
+            if ($selectedCategories == null) $selectedCategories = array_map(function($category) { return $category['name']; }, $categories->toArray());
+            
+            $menus = Menu::select('menus.id','menus.profile_menu','menus.seller_id','menus.name','menus.status','menus.price','menus.ordered','menus.description', DB::raw('(SUM(menu_reviews.rating) / COUNT(menu_reviews.rating))'))
+                        ->join('menu_week_details', 'menus.id', '=', 'menu_week_details.menu_id')
+                        ->join('menu_reviews', 'menus.id', '=', 'menu_reviews.menu_id')
+                        ->join('menu_categories', 'menus.id', '=', 'menu_categories.menu_id')
+                        ->join('categories', 'categories.id', '=', 'menu_categories.category_id')
+                        ->where('status', 'available')
+                        ->where('available_date', $selectedDate)
+                        ->whereBetween('menus.price', [$lowestPrice, $highestPrice])
+                        ->whereIn('categories.name', $selectedCategories)
+                        ->groupBy('menus.id','menus.profile_menu','menus.seller_id','menus.name','menus.status','menus.price','menus.ordered','menus.description')
+                        ->havingRaw('(SUM(menu_reviews.rating) / COUNT(menu_reviews.rating)) >= ?', [$rating])
+                        ->orderByRaw('(SUM(menu_reviews.rating) / COUNT(menu_reviews.rating)) DESC')
+                        ->get();
+        }
+
+        return $menus;
+    }
+
     // Home View
     public function home() {
         $temp = Carbon::now()->addDays(7)->format('Y-m-d');
@@ -95,6 +168,8 @@ class MenuController extends Controller
                                         ->where('seller_id', Auth::user()->seller->id)
                                         ->select('menus.*', 'available_date')
                                         ->get();
+            $availableMenus = $this->sorting($request->sort_by, $availableMenus, $selectedDate);
+            $availableMenus = $this->filter($request, $availableMenus, $categories, $selectedDate);
 
             $archivedMenus = Menu::where('status', 'archived')
                                     ->where('seller_id', Auth::user()->seller->id)
@@ -108,6 +183,9 @@ class MenuController extends Controller
                         ->where('available_date', $selectedDate)
                         ->select('menus.*', 'available_date')
                         ->paginate(10);
+
+            $menus = $this->sorting($request->sort_by, $menus, $selectedDate);
+            $menus = $this->filter($request, $menus, $categories, $selectedDate);
 
             return view('pages.menu', compact('menus', 'dates', 'selectedDate', 'categories'));
         }

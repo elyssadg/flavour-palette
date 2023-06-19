@@ -644,7 +644,7 @@
                 <div class="flex flex-wrap gap-2">
                     @foreach ($categories as $c)
                         <div class="flex">
-                            <input type="checkbox" id="{{ $c->id }}" name="categories[]" value="{{ $c->id }}" class="peer hidden">
+                            <input type="checkbox" id="{{ $c->id }}" name="categories[]" value="{{ $c->name }}" class="peer hidden">
                             <label for="{{ $c->id }}"
                                 class="cursor-pointer rounded border border-secondary py-1 px-3 transition-colors duration-200 peer-checked:bg-secondary peer-checked:text-white peer-checked:border-secondary">
                                 {{ $c->name }}
