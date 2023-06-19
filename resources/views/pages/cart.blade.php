@@ -27,7 +27,7 @@
                         </div>
                         <div class="flex items-start gap-5">
                             <div class="w-1/5 h-auto">
-                                <img class="rounded shadow object-cover w-full h-full" src="{{Storage::url("profile/menu/".$c->menu->profile_menu)}}" alt="">
+                                <img class="rounded shadow object-cover w-full aspect-square" src="{{Storage::url("profile/menu/".$c->menu->profile_menu)}}" alt="">
                             </div>
 
                             <div class=" h-full w-full flex flex-col gap-5 justify-between">

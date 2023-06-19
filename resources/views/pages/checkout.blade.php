@@ -14,7 +14,7 @@
                     <input class="w-full outline-none border-0 bg-transparent text-white text-subheading font-medium placeholder:text-white placeholder:font-normal" type="text" name="address" id="address" placeholder="Input Your Address">
                 </div>
             </div>
-            
+
             <div class="mt-10 w-full flex justify-between">
                 <div class="w-[60%] flex flex-col gap-5">
                     <?php $total_price = 0 ?>
@@ -33,7 +33,7 @@
                             </div>
                             <div class="flex items-start gap-5">
                                 <div class="w-1/5 h-auto">
-                                    <img class="rounded shadow object-cover w-full h-full" src="{{Storage::url("profile/menu/".$c->menu->profile_menu)}}" alt="">
+                                    <img class="rounded shadow object-cover w-full aspect-square" src="{{Storage::url("profile/menu/".$c->menu->profile_menu)}}" alt="">
                                 </div>
 
                                 <div class=" h-full w-full flex flex-col gap-5 justify-between">
