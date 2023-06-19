@@ -268,8 +268,8 @@ class UserController extends Controller
         $user = User::where('id', Auth::user()->id)->first();
         if(Hash::check($request->old_password, $user->password)){
             $validation = [
-                'new_password' => 'required',
-                'confirm_password' => 'required|same:new_password',
+                'new_password' => 'required|min:8',
+                'password_confirmation' => 'required|same:new_password',
             ];
 
             $validator = Validator::make($request->all(), $validation);

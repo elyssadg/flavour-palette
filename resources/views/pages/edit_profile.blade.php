@@ -76,7 +76,7 @@
                 <div>
                     <label for="old_password" class="form-label">Old Password</label>
                     <div id="old_password_div" class="relative flex items-center w-full h-fit">
-                        <input type="old_password" class="input-form" id="old_password" name="old_password" placeholder="Old Password">
+                        <input type="password" class="input-form" id="old_password" name="old_password" placeholder="Old Password">
                         <div class="absolute right-[10px] top-1/2 -translate-y-1/3" onclick="old_password()">
                             <i id="eye-icon-pw" class="fa fa-eye-slash"></i>
                         </div>
@@ -85,9 +85,9 @@
                 <div>
                     <label for="new_password" class="form-label">New Password</label>
                     <div id="new_password_div" class="relative flex items-center w-full h-fit">
-                        <input type="new_password" class="input-form" id="new_password" name="new_password" placeholder="New Password">
+                        <input type="password" class="input-form" id="new_password" name="new_password" placeholder="New Password">
                         <div class="absolute right-[10px] top-1/2 -translate-y-1/3" onclick="new_password()">
-                            <i id="eye-icon-pw" class="fa fa-eye-slash"></i>
+                            <i id="eye-icon-new" class="fa fa-eye-slash"></i>
                         </div>
                     </div>
                 </div>
@@ -189,13 +189,13 @@
         function old_password(){
             if(flagOld == 1){
                 document.getElementById('old_password').type = 'password';
-                document.getElementById('eye-icon').classList.remove('fa-eye');
-                document.getElementById('eye-icon').classList.add('fa-eye-slash');
+                document.getElementById('eye-icon-pw').classList.remove('fa-eye');
+                document.getElementById('eye-icon-pw').classList.add('fa-eye-slash');
                 flagOld = 0;
             } else {
-                document.getElementById('new_password_confirmation').type = 'text';
-                document.getElementById('eye-icon').classList.remove('fa-eye-slash');
-                document.getElementById('eye-icon').classList.add('fa-eye');
+                document.getElementById('old_password').type = 'text';
+                document.getElementById('eye-icon-pw').classList.remove('fa-eye-slash');
+                document.getElementById('eye-icon-pw').classList.add('fa-eye');
                 flagOld = 1;
             }
         }
@@ -203,14 +203,14 @@
         var flagNew = 0;
         function new_password(){
             if(flagNew == 1){
-                document.getElementById('password_confirmation').type = 'password';
-                document.getElementById('eye-icon').classList.remove('fa-eye');
-                document.getElementById('eye-icon').classList.add('fa-eye-slash');
+                document.getElementById('new_password').type = 'password';
+                document.getElementById('eye-icon-new').classList.remove('fa-eye');
+                document.getElementById('eye-icon-new').classList.add('fa-eye-slash');
                 flagNew = 0;
             } else {
-                document.getElementById('password_confirmation').type = 'text';
-                document.getElementById('eye-icon').classList.remove('fa-eye-slash');
-                document.getElementById('eye-icon').classList.add('fa-eye');
+                document.getElementById('new_password').type = 'text';
+                document.getElementById('eye-icon-new').classList.remove('fa-eye-slash');
+                document.getElementById('eye-icon-new').classList.add('fa-eye');
                 flagNew = 1;
             }
         }
@@ -219,13 +219,13 @@
         function confirm_password(){
             if(flagConf == 1){
                 document.getElementById('password_confirmation').type = 'password';
-                document.getElementById('eye-icon').classList.remove('fa-eye');
-                document.getElementById('eye-icon').classList.add('fa-eye-slash');
+                document.getElementById('eye-icon-conf').classList.remove('fa-eye');
+                document.getElementById('eye-icon-conf').classList.add('fa-eye-slash');
                 flagConf = 0;
             } else {
                 document.getElementById('password_confirmation').type = 'text';
-                document.getElementById('eye-icon').classList.remove('fa-eye-slash');
-                document.getElementById('eye-icon').classList.add('fa-eye');
+                document.getElementById('eye-icon-conf').classList.remove('fa-eye-slash');
+                document.getElementById('eye-icon-conf').classList.add('fa-eye');
                 flagConf = 1;
             }
         }
