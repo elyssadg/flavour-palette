@@ -275,7 +275,6 @@
                         <div class="h-full flex flex-col gap-5 w-full items-start">
                             <h1 id="about-us" class="text-title text-secondary font-semibold">About Us</h1>
                             <p class="text-heading text-secondary font-normal">We are Flavour Palette, an online catering service that allows you to enjoy quality meals every day. We have more than 100 professional catering kitchens that are ready to cook your favorite menu, from healthy, fusion, oriental, to traditional dishes. You can order daily catering menu through Flavour Palette app with affordable price and flexible booking. You can also freely customize your catering menu according to your taste and schedule.</p>
-                            <a href="{{ url('/menu') }}" class="btn-secondary">View Menu</a>
                         </div>
                     </div >
                     <div class="flex justify-between items-center">
