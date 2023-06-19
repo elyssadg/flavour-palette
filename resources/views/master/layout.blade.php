@@ -9,10 +9,10 @@
 
     <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    
+
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -28,6 +28,12 @@
     </style>
 </head>
 <body>
+    <style>
+        body{
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+    </style>
     <nav class="fixed top-0 left-0 w-screen shadow-sm bg-white z-50">
         <div class="w-[85%] flex items-center justify-between mx-auto py-4">
             <div class="flex items-center gap-10">
@@ -56,7 +62,7 @@
         </div>
     </nav>
 
-    <div class="mt-[88px]">
+    <div class="mt-[88px] min-h-screen">
         @yield('content')
     </div>
 
@@ -261,7 +267,7 @@
             var targetOffset = $('#about-us').offset().top - 150; // Adjust the offset as needed
             $('html, body').animate({
                 scrollTop: targetOffset
-            }, 1000); 
+            }, 1000);
         }
     </script>
 </body>

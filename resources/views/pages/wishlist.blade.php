@@ -8,11 +8,11 @@
     <div class="w-[85%] mx-auto py-20 flex flex-col gap-5">
         <div class="title">My Wishlist</div>
         <!-- Menu -->
-        <div class="flex flex-wrap gap-y-10 gap-x-[5%] justify-between p-1">
+        <div class="flex flex-wrap gap-y-10 justify-between p-1">
             @foreach ($wishlist as $index => $m)
                 <div id="menu-{{ $m->id }}" class="relative w-[30%] h-fit rounded bg-white shadow-md overflow-hidden cursor-pointer">
                     <div>
-                        <img class="w-full h-56 object-cover" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
+                        <img class="w-full aspect-square object-cover" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
                     </div>
                     <div class="flex flex-col gap-5 p-5">
                         <div class="flex justify-between h-auto">
@@ -101,6 +101,9 @@
                     });
                 </script>
             @endforeach
+            @for ($i = 0; $i < 3; $i++)
+                    <div class="w-[30%] bg-transparent h-1"></div>
+                @endfor
         </div>
     </div>
 @endsection

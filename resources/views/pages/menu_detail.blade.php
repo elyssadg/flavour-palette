@@ -7,7 +7,9 @@
 @section('content')
     <div class="py-20 w-[85%] mx-auto">
         <div class="flex justify-between w-full">
-            <img class="{{ (Auth::user() && Auth::user()->role == 'customer') ? 'w-[25%]' : 'w-[30%]' }} h-fit rounded object-cover" src="{{Storage::url("profile/menu/".$menu->profile_menu)}}"/>
+            <div class="{{ (Auth::user() && Auth::user()->role == 'customer') ? 'w-[25%]' : 'w-[30%]' }}">
+                <img class="w-full aspect-square rounded object-cover" src="{{Storage::url("profile/menu/".$menu->profile_menu)}}"/>
+            </div>
             <div class="{{ (Auth::user() && Auth::user()->role == 'customer') ? 'w-[40%]' : 'w-[65%]' }} flex flex-col items-start gap-5">
                 <div class="text-primary text-name font-medium text-justify">
                     {{ $menu->available_date }}

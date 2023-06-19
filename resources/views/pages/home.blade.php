@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+
     <section class="relative h-screen w-screen">
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[60%] w-[65%] h-max px-24 py-12 flex flex-col gap-10 items-center justify-center z-20 rounded bg-white bg-opacity-70 text-center text-primary shadow-md">
             @if (Auth::user() && Auth::user()->role == 'seller')
@@ -88,7 +89,7 @@
                     @foreach ($menus as $index => $m)
                         <div id="menu-{{ $m->id }}" class="relative w-80 h-fit rounded bg-white shadow-md overflow-hidden cursor-pointer">
                             <a href="/menu/{{ $m->id }}">
-                                <img class="w-full h-56 object-cover" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
+                                <img class="w-full aspect-square object-cover" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
                             </a>
                             <div class="flex flex-col gap-5 p-5">
                                 <div class="flex justify-between h-auto">
@@ -214,7 +215,7 @@
                                                     @endforeach
                                                 </div>
                                             </div>
-                                            
+
                                             <div id="menu-update-error-{{ $m->id }}" class="text-center text-red-500 text-name font-semibold mt-5"></div>
 
                                             <button type="submit" class="btn-primary">Save</button>
@@ -293,13 +294,13 @@
                     <div class="flex flex-wrap justify-between h-[350px] gap-y-5">
                         @foreach ($sellers as $seller)
                             <div class="w-[13.5%] h-1/2 flex justify-center items-center">
-                                <img src="{{ Storage::url('profile/user/'.$seller->user->profile_picture) }}" alt="seller image" class="w-fit h-fit">
+                                <img src="{{ Storage::url('profile/user/'.$seller->user->profile_picture) }}" alt="seller image" class="object-cover">
                             </div>
                         @endforeach
                     </div>
                 </div>
             </div>
-        @else 
+        @else
             <div class="flex flex-col items-start justify-center gap-5 w-full bg-white rounded shadow p-10 border border-primary border-opacity-50">
                 <div class="title text-secondary">
                     Orders

@@ -148,13 +148,13 @@
         <div class="flex flex-col gap-5 mt-5">
             <div class="flex flex-col items-center w-full gap-5">
                 <div class="flex items-center w-full gap-5">
-                    <div class="flex justify-between items-center gap-5">
+                    <div class="flex justify-between items-center gap-5 w-full">
                         <img src="{{ Storage::url("assets/icon/calendar.png") }}" class="w-10">
-                        <div class="flex justify-between items-center gap-5">
+                        <div class="flex items-center gap-5 grow">
                             @foreach ($dates as $date)
-                                <form action="/menu">
+                                <form action="/menu" class="flex-1">
                                     @if ($date == $selectedDate)
-                                        <button class="flex gap-2 border-2 border-secondary px-6 py-2 rounded text-heading bg-secondary text-white" type="submit" name="date_btn" value="{{ $date }}">
+                                        <button class="flex justify-center items-center gap-2 border-2 border-secondary w-full py-2 rounded text-heading bg-secondary text-white" type="submit" name="date_btn" value="{{ $date }}">
                                             <div class="font-medium">
                                                 {{ $date->format('D') }}
                                             </div>
@@ -163,7 +163,7 @@
                                             </div>
                                         </button>
                                     @else
-                                        <button class="flex gap-2 border-2 border-secondary px-6 py-2 rounded text-secondary text-heading hover:bg-secondary hover:text-white" type="submit" name="date_btn" value="{{ $date }}">
+                                        <button class="flex justify-center items-center gap-2 border-2 border-secondary w-full py-2 rounded text-secondary text-heading hover:bg-secondary hover:text-white" type="submit" name="date_btn" value="{{ $date }}">
                                             <div class="font-medium">
                                                 {{ $date->format('D') }}
                                             </div>
@@ -177,10 +177,10 @@
                         </div>
                     </div>
                     <div class="border-l-2 border-secondary flex gap-5 pl-5">
-                        <div class="cursor-pointer border-2 border-secondary px-4 py-2 rounded">
+                        <div class="cursor-pointer border-2 border-secondary px-4 py-3 rounded flex justify-center items-center">
                             <img id="sort-btn" class="" src="{{ Storage::url("assets/icon/sort.png") }}" style="width: 30px;"/>
                         </div>
-                        <div class="cursor-pointer border-2 border-secondary px-4 py-2 rounded">
+                        <div class="cursor-pointer border-2 border-secondary px-4 py-2 rounded flex justify-center items-center">
                             <img id="filter-btn" class="" src="{{ Storage::url("assets/icon/filter.png") }}" style="width: 30px;"/>
                         </div>
                     </div>
@@ -204,7 +204,7 @@
                     @foreach ($availableMenus as $index => $m)
                         <div id="menu-{{ $m->id }}" class="relative w-80 h-fit rounded bg-white shadow-md overflow-hidden">
                             <a href="/menu/{{ $m->id }}">
-                                <img class="w-full h-56 object-cover" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
+                                <img class="w-full aspect-square object-cover" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
                             </a>
                             <div class="flex flex-col gap-5 p-5">
                                 <div class="flex justify-between h-auto">
@@ -306,7 +306,7 @@
                                                 @foreach ($categories as $c)
                                                     <div class="flex">
                                                         <input type="checkbox" name="categories[]" id="cb-{{ $m->id }}-{{ $c->id }}" value="{{ $c->id }}" class="peer hidden" {{ $m->menu_category->where('category_id', $c->id)->isNotEmpty() ? 'checked' : '' }}>
-                                                        <label id="lbl-{{ $m->id }}-{{ $c->id }}" for="cb-{{ $m->id }}-{{ $c->id }}" 
+                                                        <label id="lbl-{{ $m->id }}-{{ $c->id }}" for="cb-{{ $m->id }}-{{ $c->id }}"
                                                             class="cursor-pointer rounded border border-secondary py-1 px-3 transition-colors duration-200 peer-checked:bg-secondary peer-checked:text-white peer-checked:border-secondary">
                                                             {{ $c->name }}
                                                         </label>
@@ -321,7 +321,7 @@
                                         </div>
 
                                         <div id="menu-update-error-{{ $m->id }}" class="text-center text-red-500 text-name font-semibold mt-5"></div>
-        
+
                                         <button type="submit" class="btn-primary">Save</button>
                                     </form>
                                 </div>
@@ -368,14 +368,14 @@
                     @endforeach
                 </div>
             </div>
-            
+
             <div class="flex flex-col gap-5 mt-20">
                 <h1 class="text-title text-secondary font-semibold">Archived Menus</h1>
                 <div class="flex h-max overflow-x-scroll hide-scroll-bar">
                     <div class="flex gap-5 p-1">
                         @foreach ($archivedMenus as $index => $m)
-                            <div id="menu-{{ $m->id }}" class="relative w-80 h-fit rounded bg-white shadow-md overflow-hidden"> 
-                                <img class="w-full h-56 object-cover" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
+                            <div id="menu-{{ $m->id }}" class="relative w-80 h-fit rounded bg-white shadow-md overflow-hidden">
+                                <img class="w-full aspect-square object-cover" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
                                 <div class="flex flex-col gap-5 p-5">
                                     <div class="flex justify-between h-auto">
                                         <div class="max-w-[65%] h-20 text-secondary font-semibold text-heading">
@@ -479,7 +479,7 @@
                                 @foreach ($categories as $c)
                                     <div class="flex">
                                         <input type="checkbox" name="categories[]" id="cb-{{ $c->id }}" value="{{ $c->id }}" class="peer hidden">
-                                        <label id="lbl-{{ $c->id }}" for="cb-{{ $c->id }}" 
+                                        <label id="lbl-{{ $c->id }}" for="cb-{{ $c->id }}"
                                             class="cursor-pointer rounded border border-secondary py-1 px-3 transition-colors duration-200 peer-checked:bg-secondary peer-checked:text-white peer-checked:border-secondary">
                                             {{ $c->name }}
                                         </label>
@@ -529,11 +529,11 @@
                 });
             </script>
         @else
-            <div class="flex flex-wrap gap-y-10 gap-x-[5%] justify-center p-1">
+            <div class="flex flex-wrap gap-y-10 justify-between p-1">
                 @foreach ($menus as $index => $m)
                     <div id="menu-{{ $m->id }}" class="relative w-[30%] h-fit rounded bg-white shadow-md overflow-hidden cursor-pointer">
                         <a href="/menu/{{ $m->id }}?date_btn={{ $m->available_date }}">
-                            <img class="w-full h-56 object-cover" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
+                            <img class="w-full aspect-square object-cover" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
                         </a>
                         <div class="flex flex-col gap-5 p-5">
                             <div class="flex justify-between h-auto">
@@ -623,6 +623,9 @@
                         </div>
                     </div>
                 @endforeach
+                @for ($i = 0; $i < 3; $i++)
+                    <div class="w-[30%] bg-transparent h-1"></div>
+                @endfor
             </div>
         @endif
     </div>
