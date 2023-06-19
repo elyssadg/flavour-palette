@@ -32,7 +32,7 @@
                                     <div class="text-base text-dgray">Preview</div>
                                     <div class="flex w-full items-center gap-2">
                                         <div class="w-16 h-16 rounded">
-                                            <img class="w-full h-full object-cover" src="{{ Storage::url("profile/menu/".$od->menu->profile_menu) }}"/>
+                                            <img class="w-full aspect-square object-cover" src="{{ Storage::url("profile/menu/".$od->menu->profile_menu) }}"/>
                                         </div>
                                         <div class="text-heading text-secondary font-medium">
                                             {{$od->menu->name}}
