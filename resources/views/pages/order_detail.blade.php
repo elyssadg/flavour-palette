@@ -30,14 +30,14 @@
 
         <hr class="line">
 
-        <div class="flex flex-col gap-5">
+        <div class="flex flex-col gap-5 w-full">
             <div class="title">
                 Items
             </div>
             @foreach ($orderHeader->order_detail as $od)
-                <div class="flex justify-between gap-5 items-start">
+                <div class="flex justify-between gap-5 items-start w-full">
                     <div class="w-[30%] rounded mb-auto">
-                        <img class="w-full h-auto object-cover rounded shadow" src="{{ Storage::url("profile/menu/".$od->menu->profile_menu) }}"/>
+                        <img class="w-full h-80 object-cover rounded shadow" src="{{ Storage::url("profile/menu/".$od->menu->profile_menu) }}"/>
                     </div>
                     <div class="flex flex-col gap-3 w-[65%]">
                         <div class="flex flex-col gap-2">
