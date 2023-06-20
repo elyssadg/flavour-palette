@@ -147,15 +147,13 @@
                                 @if (Auth::user() && Auth::user()->role == 'customer')
                                     <div class="ml-auto">
                                         <div class="flex gap-2 items-center justify-center">
-                                            @if (Auth::user()->customer->wishlist->where('menu_id', $m->id)->isNotEmpty())
-                                                <a href="/wishlist/remove/{{ $m->id }}" class="flex items-center justify-center w-12 h-12 rounded hover:bg-primary hover:bg-opacity-10">
+                                            <a href="/wishlist/update" data-menuid="{{ $m->id }}" class="update-wishlist flex items-center justify-center w-12 h-12 rounded hover:bg-primary hover:bg-opacity-10">
+                                                @if (Auth::user()->customer->wishlist->where('menu_id', $m->id)->isNotEmpty())
                                                     <i class="fas fa-heart fa-2x text-primary"></i>
-                                                </a>
-                                            @else
-                                                <a href="/wishlist/add/{{ $m->id }}" class="flex items-center justify-center w-12 h-12 rounded hover:bg-primary hover:bg-opacity-10">
+                                                @else
                                                     <i class="far fa-heart fa-2x text-primary"></i>
-                                                </a>
-                                            @endif
+                                                @endif
+                                            </a>
                                             <form action="cart/add" method="POST">
                                                 {{ @csrf_field() }}
                                                 <input type="hidden" id="available_date" name="available_date" value="{{ $m->available_date }}">

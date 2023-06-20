@@ -60,6 +60,7 @@ Route::group(['middleware' => 'auth'], function(){
         Route::get('/wishlist', [WishlistController::class, 'wishlist']);
         Route::get('/wishlist/add/{id}', [WishlistController::class, 'addWishlist']);
         Route::get('/wishlist/remove/{id}', [WishlistController::class, 'removeWishlist']);
+        Route::post('/wishlist/update', [WishlistController::class, 'updateWishlist']);
     });
 
     Route::get('/logout', [UserController::class, 'logout']);

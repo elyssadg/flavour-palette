@@ -11,9 +11,9 @@
         <div class="flex flex-wrap gap-y-10 justify-between p-1">
             @foreach ($wishlist as $index => $m)
                 <div id="menu-{{ $m->id }}" class="relative w-[30%] h-fit rounded bg-white shadow-md overflow-hidden cursor-pointer">
-                    <div>
+                    <a href="/menu/{{ $m->id }}">
                         <img class="w-full aspect-square object-cover" src="{{ Storage::url("profile/menu/".$m->profile_menu) }}"/>
-                    </div>
+                    </a>
                     <div class="flex flex-col gap-5 p-5">
                         <div class="flex justify-between h-auto">
                             <div class="max-w-[65%] h-14 text-secondary font-semibold text-heading">
@@ -94,12 +94,6 @@
                         @endif
                     </div>
                 </div>
-                <script>
-                    document.getElementById('menu-{{ $m->id }}').addEventListener('click', function(event) {
-                        window.location.href = 'menu/{{ $m->id }}?date_btn={{ $m->available_date }}';
-                        event.stopPropagation();
-                    });
-                </script>
             @endforeach
             @for ($i = 0; $i < 3; $i++)
                     <div class="w-[30%] bg-transparent h-1"></div>

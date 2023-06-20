@@ -47,4 +47,33 @@ class WishlistController extends Controller
     
         return redirect()->back();
     }
+
+    // Update Wishlist
+    public function updateWishlist(Request $request) {
+        $customerId = $request->user_id;
+        $menuId = $request->menu_id;
+        $wishlist = Wishlist::where('menu_id', '=', $menuId, 'and')
+                            ->where('customer_id', '=', $customerId);
+
+        if ($wishlist->first()) {
+            $wishlist->delete();
+            return response()->json([
+                'error' => 'false',
+                'action' => 'remove'
+            ]);
+        } else {
+            $wishlist = new Wishlist();
+            $wishlist->menu_id = $menuId;
+            $wishlist->customer_id = Auth::user()->customer->id;
+            $wishlist->save();
+            return response()->json([
+                'error' => 'false',
+                'action' => 'add'
+            ]);
+        }
+    
+        return response()->json([
+            'error' => 'true'
+        ]);
+    }
 }

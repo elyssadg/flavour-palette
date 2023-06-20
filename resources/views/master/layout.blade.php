@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title') - Flavour Palette</title>
     <link rel="icon" href="{{ asset('storage/assets/general/favicon.png') }}" type="image/x-icon">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     @vite('resources/css/app.css')
 
     <!-- Font -->
@@ -270,5 +272,39 @@
             }, 1000);
         }
     </script>
+
+    @if (Auth::user() && Auth::user()->role == 'customer')
+        <script>
+            var user_id = "{{ Auth::user()->customer->id }}";
+            $(document).ready(function(){
+                $('.update-wishlist').click(function(){
+                    event.preventDefault();
+                    var menu_id = $(this).data('menuid');
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        type: 'POST',
+                        url: '/wishlist/update',
+                        data: {
+                            menu_id: menu_id,
+                            user_id: user_id
+                        },
+                        success:function(response){
+                            if (response.error == 'false') {
+                                if (response.action == 'add') {
+                                    $('a[data-menuid=' + menu_id + ']').html('<i class="fas fa-heart fa-2x text-primary"></i>');
+                                } else if (response.action == 'remove') {
+                                    $('a[data-menuid=' + menu_id + ']').html('<i class="far fa-heart fa-2x text-primary"></i>');
+                                }
+                            }
+                        }
+                    });
+                });
+            });
+        </script>
+    @endif
 </body>
 </html>

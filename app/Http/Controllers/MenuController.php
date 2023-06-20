@@ -40,7 +40,7 @@ class MenuController extends Controller
                 case "highest_rating":{
                     $menus = Menu::select('menus.id','menus.profile_menu','menus.seller_id','menus.name','menus.status','menus.price','menus.ordered','menus.description', DB::raw('(SUM(menu_reviews.rating) / COUNT(menu_reviews.rating))'))
                                     ->join('menu_week_details', 'menus.id', '=', 'menu_week_details.menu_id')
-                                    ->join('menu_reviews', 'menus.id', '=', 'menu_reviews.menu_id')
+                                    ->leftJoin('menu_reviews', 'menus.id', '=', 'menu_reviews.menu_id')
                                     ->where('status', 'available')
                                     ->where('available_date', $selectedDate)
                                     ->groupBy('menus.id','menus.profile_menu','menus.seller_id','menus.name','menus.status','menus.price','menus.ordered','menus.description')

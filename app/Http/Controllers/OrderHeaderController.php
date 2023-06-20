@@ -33,6 +33,8 @@ class OrderHeaderController extends Controller
 
     // Pay
     public function createOrder(Request $request) {
+        if (!$request->address) return redirect()->back();
+        
         $orderHeaderId = Str::uuid();
         OrderHeader::insert([
             'id' => $orderHeaderId,
