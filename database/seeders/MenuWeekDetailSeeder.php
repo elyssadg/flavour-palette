@@ -17,7 +17,7 @@ class MenuWeekDetailSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $startDate = strtotime('2023-06-26');
+        $startDate = strtotime('2023-10-30');
         $dateStarts = [];
 
         for ($i = 0; $i < 14; $i++) {
